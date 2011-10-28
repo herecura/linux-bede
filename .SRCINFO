@@ -1,0 +1,45 @@
+pkgbase = linux-bede
+	pkgdesc = The Linux Kernel and modules, BlackEagle Desktop Edition
+	pkgver = 3.1
+	pkgrel = 2
+	url = http://www.kernel.org
+	arch = i686
+	arch = x86_64
+	license = GPL2
+	options = !strip
+	source = http://www.kernel.org/pub/linux/kernel/v3.x/linux-3.1.tar.xz
+	source = config-3.1-desktop.i686
+	source = config-3.1-desktop.x86_64
+	source = linux-bede.preset
+	source = sysctl-desktop.i686
+	source = sysctl-desktop.x86_64
+	sha256sums = 6f220258f3ce9f11d0e53860ccc2d9fe746117056212099876dbe5ee1de80af3
+	sha256sums = 3fd18971eacc1efe8c4305940ac087ebfd2b805b8cb010635f7de7cc18ed5671
+	sha256sums = c69883c592a378a7767d0832e6e112e330134ac08569af1687a72117b4f7f8c2
+	sha256sums = d5bb4aabbd556f8a3452198ac42cad6ecfae020b124bcfea0aa7344de2aec3b5
+	sha256sums = 773cee9229629fa48ff50bd84f2c815d70071da7c71c9d74887988a1a8998267
+	sha256sums = a10636dfc6e8ec4e7b48f504e89f84f59dc77f29624d1567921eee0a7e438db4
+
+pkgname = linux-bede
+	pkgdesc = The Linux Kernel and modules, BlackEagle Desktop Edition
+	install = linux-bede.install
+	groups = base
+	depends = coreutils
+	depends = module-init-tools>=3.12-2
+	depends = mkinitcpio>=0.7
+	optdepends = crda: to set the correct wireless channels of your country
+	optdepends = linux-firmware: when having some hardware needing special firmware
+	provides = linux
+	replaces = nouveau-drm
+	replaces = kernel26-slk
+	replaces = kernel26-bede
+	replaces = linux-bemm
+	backup = etc/mkinitcpio.d/linux-bede.preset
+	backup = etc/sysctl.d/sysctl-linux-bede.conf
+
+pkgname = linux-bede-headers
+	pkgdesc = Header files and scripts for building modules for linux-bede
+	provides = linux-headers
+	replaces = kernel26-bede-headers
+	replaces = linux-bemm-headers
+
