@@ -1,7 +1,7 @@
 pkgbase = linux-bede
 	pkgdesc = The Linux Kernel and modules, BlackEagle Desktop Edition
 	pkgver = 3.4.4
-	pkgrel = 2
+	pkgrel = 3
 	url = http://www.kernel.org
 	arch = i686
 	arch = x86_64
@@ -27,8 +27,8 @@ pkgname = linux-bede
 	install = linux-bede.install
 	groups = base
 	depends = coreutils
-	depends = kmod
-	depends = mkinitcpio>=0.7
+	depends = kmod>=9-2
+	depends = mkinitcpio>=0.9
 	optdepends = crda: to set the correct wireless channels of your country
 	optdepends = linux-firmware: when having some hardware needing special firmware
 	provides = linux
