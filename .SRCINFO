@@ -23,7 +23,6 @@ pkgbase = linux-bede
 pkgname = linux-bede
 	pkgdesc = The Linux Kernel and modules, BlackEagle Desktop Edition
 	install = linux-bede.install
-	groups = base
 	depends = coreutils
 	depends = kmod>=9-2
 	depends = mkinitcpio>=0.9
