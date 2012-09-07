@@ -26,7 +26,7 @@ pkgname = linux-bede
 	pkgdesc = The Linux Kernel and modules, BlackEagle Desktop Edition
 	install = linux-bede.install
 	depends = coreutils
-	depends = kmod>=9-2
+	depends = kmod>=10
 	depends = mkinitcpio>=0.9
 	optdepends = crda: to set the correct wireless channels of your country
 	optdepends = linux-firmware: when having some hardware needing special firmware
