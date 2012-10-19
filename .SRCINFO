@@ -1,5 +1,4 @@
 pkgbase = linux-bede
-	pkgdesc = The Linux Kernel and modules, BlackEagle Desktop Edition
 	pkgver = 3.6.2
 	pkgrel = 1
 	url = http://www.kernel.org
