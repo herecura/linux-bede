@@ -1,6 +1,6 @@
 pkgbase = linux-bede
 	pkgver = 3.10.2
-	pkgrel = 1
+	pkgrel = 2
 	url = http://www.kernel.org
 	arch = i686
 	arch = x86_64
@@ -13,8 +13,8 @@ pkgbase = linux-bede
 	source = linux-bede.preset
 	source = http://www.kernel.org/pub/linux/kernel/v3.x/patch-3.10.2.xz
 	sha256sums = df27fa92d27a9c410bfe6c4a89f141638500d7eadcca5cce578954efc2ad3544
-	sha256sums = a4cdf0de1f42d859c2118d0f3f3ed63e26c9907b1717cd441bec8b89c37dec45
-	sha256sums = d6b3f785e41775ed88e0ecd34bd370577294ba3f7dfd4a944a9a076539dad030
+	sha256sums = 335b4d97c300d7f58a6f492d84f6ec121979065f3b93263227ab3aa6e99f601f
+	sha256sums = 281fddbe00d687e6216bf64d38aad14de9aa267bf7b75b4578e7da648ca54c46
 	sha256sums = d5bb4aabbd556f8a3452198ac42cad6ecfae020b124bcfea0aa7344de2aec3b5
 	sha256sums = 1ffe98282ddacfd8df1d0aa1eaf419be8f09d80cbb1aa90c805057d1f0154884
 
