@@ -1,5 +1,5 @@
 pkgbase = linux-bede
-	pkgver = 3.10.3
+	pkgver = 3.10.4
 	pkgrel = 1
 	url = http://www.kernel.org
 	arch = i686
@@ -12,12 +12,12 @@ pkgbase = linux-bede
 	source = config-3.10-desktop.i686
 	source = config-3.10-desktop.x86_64
 	source = linux-bede.preset
-	source = http://www.kernel.org/pub/linux/kernel/v3.x/patch-3.10.3.xz
+	source = http://www.kernel.org/pub/linux/kernel/v3.x/patch-3.10.4.xz
 	sha256sums = df27fa92d27a9c410bfe6c4a89f141638500d7eadcca5cce578954efc2ad3544
 	sha256sums = 335b4d97c300d7f58a6f492d84f6ec121979065f3b93263227ab3aa6e99f601f
 	sha256sums = 281fddbe00d687e6216bf64d38aad14de9aa267bf7b75b4578e7da648ca54c46
 	sha256sums = d5bb4aabbd556f8a3452198ac42cad6ecfae020b124bcfea0aa7344de2aec3b5
-	sha256sums = 28f1bc33ec70e963a604330e1c28d356a830c1e5349bbdb5d8b9c257a6fff81c
+	sha256sums = d8ef39930663cc916e57e06b308a1654f2a03903a3c5a0d3a5503c6d58e2b2b8
 
 pkgname = linux-bede
 	pkgdesc = The Linux Kernel and modules, BlackEagle Desktop Edition
