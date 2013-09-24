@@ -1,6 +1,6 @@
 pkgbase = linux-bede
 	pkgver = 3.11.1
-	pkgrel = 2
+	pkgrel = 3
 	url = http://www.kernel.org
 	arch = i686
 	arch = x86_64
