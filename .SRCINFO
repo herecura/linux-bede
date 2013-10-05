@@ -1,5 +1,5 @@
 pkgbase = linux-bede
-	pkgver = 3.11.3
+	pkgver = 3.11.4
 	pkgrel = 1
 	url = http://www.kernel.org
 	arch = i686
@@ -14,13 +14,13 @@ pkgbase = linux-bede
 	source = config-3.11-desktop.x86_64
 	source = linux-bede.preset
 	source = linux-bede-aufs3::git://git.code.sf.net/p/aufs/aufs3-standalone#branch=aufs3.11
-	source = http://www.kernel.org/pub/linux/kernel/v3.x/patch-3.11.3.xz
+	source = http://www.kernel.org/pub/linux/kernel/v3.x/patch-3.11.4.xz
 	sha256sums = 803ec8f0ad4b2ddedcb0332a590cd2b5e10dfc57c3b1c95bc9c46af81d51d7f9
 	sha256sums = 494db9bb6204f88693a2607174ef554799bd03344e5dc3a2413b52a3d6187391
 	sha256sums = 7e92d3f6f3156c1cd29ee67aed0dca69a03cabe8507af68e5c87ad1c1d6b0480
 	sha256sums = d5bb4aabbd556f8a3452198ac42cad6ecfae020b124bcfea0aa7344de2aec3b5
 	sha256sums = SKIP
-	sha256sums = 5aded978d2098d2a892962e5a548d631f7039b5332c6a15f62fcb354f2c377a6
+	sha256sums = 9995a6ae825513bd5678cd640d08469178c440b5e28c4dcddc5581b1035a9125
 
 pkgname = linux-bede
 	pkgdesc = The Linux Kernel and modules, BlackEagle Desktop Edition
