@@ -1,5 +1,5 @@
 pkgbase = linux-bede
-	pkgver = 3.11.6
+	pkgver = 3.11.7
 	pkgrel = 1
 	url = http://www.kernel.org
 	arch = i686
@@ -7,20 +7,17 @@ pkgbase = linux-bede
 	license = GPL2
 	makedepends = bc
 	makedepends = kmod
-	makedepends = git
 	options = !strip
 	source = http://www.kernel.org/pub/linux/kernel/v3.x/linux-3.11.tar.xz
 	source = config-3.11-desktop.i686
 	source = config-3.11-desktop.x86_64
 	source = linux-bede.preset
-	source = linux-bede-aufs3::git://git.code.sf.net/p/aufs/aufs3-standalone#branch=aufs3.11
-	source = http://www.kernel.org/pub/linux/kernel/v3.x/patch-3.11.6.xz
+	source = http://www.kernel.org/pub/linux/kernel/v3.x/patch-3.11.7.xz
 	sha256sums = 803ec8f0ad4b2ddedcb0332a590cd2b5e10dfc57c3b1c95bc9c46af81d51d7f9
-	sha256sums = 494db9bb6204f88693a2607174ef554799bd03344e5dc3a2413b52a3d6187391
-	sha256sums = 7e92d3f6f3156c1cd29ee67aed0dca69a03cabe8507af68e5c87ad1c1d6b0480
+	sha256sums = 85a0ff3d28f6bceb95c5091845b9b066a474d2e98dc3cf71b70e79a1f143afc0
+	sha256sums = 8fef8bdda184a983f9e0068b4933d05314f8c426769d071db769989f06832cbd
 	sha256sums = d5bb4aabbd556f8a3452198ac42cad6ecfae020b124bcfea0aa7344de2aec3b5
-	sha256sums = SKIP
-	sha256sums = 61ca45a96f9db6477eca0f2170a7c79c2e3b83893f8445249ec7a360d8be244e
+	sha256sums = da03530e5fa8a87566b605a65d650ffaff01f94caaa057bb375fd75746d07ecd
 
 pkgname = linux-bede
 	pkgdesc = The Linux Kernel and modules, BlackEagle Desktop Edition
