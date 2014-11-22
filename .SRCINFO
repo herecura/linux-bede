@@ -1,12 +1,13 @@
 pkgbase = linux-bede
 	pkgver = 3.17.4
-	pkgrel = 1
+	pkgrel = 2
 	url = http://www.kernel.org
 	arch = i686
 	arch = x86_64
 	license = GPL2
 	makedepends = bc
 	makedepends = kmod
+	makedepends = clang
 	options = !strip
 	source = https://www.kernel.org/pub/linux/kernel/v3.x/linux-3.17.tar.xz
 	source = config-desktop.i686
