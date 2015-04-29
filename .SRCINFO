@@ -1,5 +1,5 @@
 pkgbase = linux-bede
-	pkgver = 4.0
+	pkgver = 4.0.1
 	pkgrel = 2
 	url = http://www.kernel.org
 	arch = i686
@@ -14,12 +14,16 @@ pkgbase = linux-bede
 	source = config-desktop.x86_64
 	source = linux-bede.preset
 	source = sysctl-linux-bede.conf
+	source = https://www.kernel.org/pub/linux/kernel/v4.x/patch-4.0.1.xz
+	source = https://www.kernel.org/pub/linux/kernel/v4.x/patch-4.0.1.sign
 	sha256sums = 0f2f7d44979bc8f71c4fc5d3308c03499c26a824dd311fdf6eef4dee0d7d5991
 	sha256sums = SKIP
 	sha256sums = 354321c3dede08b26f8c443045de195d410621ebe2cc08354d0bb9ea80d1fb46
 	sha256sums = 6863347f1556d1e69f02ecf937608c2cac6be669ce5337552fe7e35410d0709c
 	sha256sums = d5bb4aabbd556f8a3452198ac42cad6ecfae020b124bcfea0aa7344de2aec3b5
 	sha256sums = e939ae473776190eb327e3afd5315626d6ac87a84b5475e08979c319e917a1d4
+	sha256sums = 9b4b47eb6584dc39aaa5db46843b83f7c60975abecbda4dc106a8722eabe96fb
+	sha256sums = SKIP
 
 pkgname = linux-bede
 	pkgdesc = The Linux Kernel and modules, BlackEagle Desktop Edition
