@@ -7,7 +7,7 @@ _kernelname=-bede
 pkgbase="linux$_kernelname"
 pkgname=("linux$_kernelname" "linux$_kernelname-headers")
 _basekernel=4.1
-_patchver=1
+_patchver=2
 if [[ "$_patchver" == rc* ]]; then
 	# rc kernel
 	_baseurl='https://www.kernel.org/pub/linux/kernel/v4.x/testing'
@@ -19,7 +19,7 @@ else
 	pkgver=$_basekernel
 	_linuxname="linux-$_basekernel"
 fi
-pkgrel=2
+pkgrel=1
 arch=('i686' 'x86_64')
 license=('GPL2')
 makedepends=('bc' 'kmod')
@@ -61,7 +61,7 @@ if [[ "$_patchver" =~ ^[0-9]*$ ]]; then
 		"$_baseurl/$_patchname.sign"
 	)
 	sha256sums=( "${sha256sums[@]}"
-		'48a813fb6795153f6906759501bea9e290db528894d1c0726667efc8e55dd7ad'
+		'1a8863e4cd7ef3d59b67061aaf5e3f98ad4c63dda015b9b483d458f2b673caef'
 		'SKIP'
 	)
 	fi
