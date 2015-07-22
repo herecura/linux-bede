@@ -7,7 +7,7 @@ _kernelname=-bede
 pkgbase="linux$_kernelname"
 pkgname=("linux$_kernelname" "linux$_kernelname-headers")
 _basekernel=4.1
-_patchver=2
+_patchver=3
 if [[ "$_patchver" == rc* ]]; then
 	# rc kernel
 	_baseurl='https://www.kernel.org/pub/linux/kernel/v4.x/testing'
@@ -40,7 +40,7 @@ source=(
 	# standard config files for mkinitcpio ramdisk
 	"linux$_kernelname.preset"
 	# sysctl tweaks
-	'sysctl-linux-bede.conf'
+	#'sysctl-linux-bede.conf'
 )
 sha256sums=(
 	'caf51f085aac1e1cea4d00dbbf3093ead07b551fc07b31b2a989c05f8ea72d9f'
@@ -48,7 +48,7 @@ sha256sums=(
     '22e59f4dd2b9a75cd49c421526f8b153a1f3a43481b59789d9b7cdbf80b59d52'
     '88ea24ed84f894c22a9c2167cfaf6d7ac52133ad5979e5a88781adfa35b96037'
 	'd5bb4aabbd556f8a3452198ac42cad6ecfae020b124bcfea0aa7344de2aec3b5'
-	'e939ae473776190eb327e3afd5315626d6ac87a84b5475e08979c319e917a1d4'
+	#'e939ae473776190eb327e3afd5315626d6ac87a84b5475e08979c319e917a1d4'
 )
 
 # revision patches
@@ -61,7 +61,7 @@ if [[ "$_patchver" =~ ^[0-9]*$ ]]; then
 		"$_baseurl/$_patchname.sign"
 	)
 	sha256sums=( "${sha256sums[@]}"
-		'1a8863e4cd7ef3d59b67061aaf5e3f98ad4c63dda015b9b483d458f2b673caef'
+		'b949517b832af2fc90c57a35e475340f32c186f391cbdbfbe0aba7720dbb0b3e'
 		'SKIP'
 	)
 	fi
@@ -220,7 +220,7 @@ package_linux-bede() {
 	mv "$pkgdir/lib" "$pkgdir/usr/"
 
 	# install sysctl tweaks
-	install -Dm644 "$srcdir/sysctl-linux-bede.conf" "$pkgdir/usr/lib/sysctl.d/60-linux-bede.conf"
+	#install -Dm644 "$srcdir/sysctl-linux-bede.conf" "$pkgdir/usr/lib/sysctl.d/60-linux-bede.conf"
 }
 
 package_linux-bede-headers() {
