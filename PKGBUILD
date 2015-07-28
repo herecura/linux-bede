@@ -6,8 +6,8 @@
 _kernelname=-bede
 pkgbase="linux$_kernelname"
 pkgname=("linux$_kernelname" "linux$_kernelname-headers")
-_basekernel=4.1
-_patchver=3
+_basekernel=4.2
+_patchver=rc4
 if [[ "$_patchver" == rc* ]]; then
     # rc kernel
     _baseurl='https://www.kernel.org/pub/linux/kernel/v4.x/testing'
@@ -19,7 +19,7 @@ else
     pkgver=$_basekernel
     _linuxname="linux-$_basekernel"
 fi
-pkgrel=4
+pkgrel=0.1
 arch=('i686' 'x86_64')
 license=('GPL2')
 makedepends=('bc' 'kmod')
@@ -43,10 +43,10 @@ source=(
     'sysctl-linux-bede.conf'
 )
 sha256sums=(
-    'caf51f085aac1e1cea4d00dbbf3093ead07b551fc07b31b2a989c05f8ea72d9f'
+    '54d0d64d8df025cc9771cd702352345f8027a388c59c253851e1c657c8a86305'
     'SKIP'
-    'f335154798e8fb7624b7c497509603cc40a157f2f04e7313db4401f5a430c14a'
-    '2368f9d7ce51f982099e3bd5078370cfa425337b32f96b97087d4f21c000ee87'
+    '746cad8a122520001d985e6342f8f461ac70ff1d3f57b4aa873fe88746a9cef9'
+    '2a4e83becc6759b6be380599e0d5f31ed8b346b3b1a5013e127ee7d4f484de73'
     'd5bb4aabbd556f8a3452198ac42cad6ecfae020b124bcfea0aa7344de2aec3b5'
     'cc0fa883ee34a705c31ea6262a8a61f292d1312d34333dbbde60d45fc976778b'
 )
@@ -61,7 +61,7 @@ if [[ "$_patchver" =~ ^[0-9]*$ ]]; then
             "$_baseurl/$_patchname.sign"
         )
         sha256sums=( "${sha256sums[@]}"
-            'b949517b832af2fc90c57a35e475340f32c186f391cbdbfbe0aba7720dbb0b3e'
+            ''
             'SKIP'
         )
     fi
@@ -160,9 +160,6 @@ package_linux-bede() {
         'crda: to set the correct wireless channels of your country'
         'linux-firmware: when having some hardware needing special firmware'
     )
-    replaces=(
-        'nouveau-drm' 'kernel26-slk' "kernel26$_kernelname" "linux-bemm"
-    )
 
     install=$pkgname.install
 
@@ -226,7 +223,7 @@ package_linux-bede() {
 package_linux-bede-headers() {
     pkgdesc="Header files and scripts for building modules for linux$_kernelname"
     provides=('linux-headers')
-    replaces=("kernel26$_kernelname-headers" "linux-bemm-headers")
+
     install -dm755 "$pkgdir/usr/lib/modules/$_kernver"
     cd "$pkgdir/usr/lib/modules/$_kernver"
     ln -sf ../../../src/linux-$_kernver build
