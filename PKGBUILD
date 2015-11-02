@@ -7,7 +7,7 @@ _kernelname=-bede
 pkgbase="linux$_kernelname"
 pkgname=("linux$_kernelname" "linux$_kernelname-headers")
 _basekernel=4.3
-_patchver=rc7
+_patchver=0
 if [[ "$_patchver" == rc* ]]; then
     # rc kernel
     _baseurl='https://www.kernel.org/pub/linux/kernel/v4.x/testing'
@@ -43,10 +43,10 @@ source=(
     'sysctl-linux-bede.conf'
 )
 sha256sums=(
-    'da077d96da730c3c4d313d3faad8464c4ad23231f181bf2a88a8a3ed074f3706'
+    '4a622cc84b8a3c38d39bc17195b0c064d2b46945dfde0dae18f77b120bc9f3ae'
     'SKIP'
-    'd0bb5207bbbdd4b9a884eb1575b4ebda5ed15a60d6e6024362d5a3663b2a4f40'
-    '6cad543bd793e7930a883e138e1919cc0f1e3aa5c006f983c340e695b1337909'
+    'c630d843a369aa3186fc6ab4bcf3a9cb6f010adc0d52848ffed9b9096e2fe8c5'
+    '4e19afafaeab7a1bf600b626d26ea8a6eb6486618faf4fa1721f986b49ac1c18'
     'd5bb4aabbd556f8a3452198ac42cad6ecfae020b124bcfea0aa7344de2aec3b5'
     'cc0fa883ee34a705c31ea6262a8a61f292d1312d34333dbbde60d45fc976778b'
 )
