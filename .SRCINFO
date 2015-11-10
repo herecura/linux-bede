@@ -1,5 +1,5 @@
 pkgbase = linux-bede
-	pkgver = 4.2.5
+	pkgver = 4.2.6
 	pkgrel = 1
 	url = http://www.kernel.org
 	arch = i686
@@ -14,15 +14,15 @@ pkgbase = linux-bede
 	source = config-desktop.x86_64
 	source = linux-bede.preset
 	source = sysctl-linux-bede.conf
-	source = https://www.kernel.org/pub/linux/kernel/v4.x/patch-4.2.5.xz
-	source = https://www.kernel.org/pub/linux/kernel/v4.x/patch-4.2.5.sign
+	source = https://www.kernel.org/pub/linux/kernel/v4.x/patch-4.2.6.xz
+	source = https://www.kernel.org/pub/linux/kernel/v4.x/patch-4.2.6.sign
 	sha256sums = cf20e044f17588d2a42c8f2a450b0fd84dfdbd579b489d93e9ab7d0e8b45dbeb
 	sha256sums = SKIP
 	sha256sums = d06b044319b84e72c78ae82d0b77d504864bd765281d24a2291250153572cd8b
 	sha256sums = abc8f1913aef86acdfc1923c012f393d9dbdedab8e623d444c3cdaab34a0a80c
 	sha256sums = d5bb4aabbd556f8a3452198ac42cad6ecfae020b124bcfea0aa7344de2aec3b5
 	sha256sums = cc0fa883ee34a705c31ea6262a8a61f292d1312d34333dbbde60d45fc976778b
-	sha256sums = b631eb4e8b4911b31111b0838e00f7c4a1b7689abcd2233609831b638493f4fb
+	sha256sums = 419f91fa4a6bb0d2c160ef6812341e5aac7e776550efe1d0958ae3b1ce0ea8ce
 	sha256sums = SKIP
 
 pkgname = linux-bede
