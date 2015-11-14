@@ -1,6 +1,6 @@
 pkgbase = linux-bede
 	pkgver = 4.3
-	pkgrel = 2
+	pkgrel = 3
 	url = http://www.kernel.org
 	arch = i686
 	arch = x86_64
@@ -16,8 +16,8 @@ pkgbase = linux-bede
 	source = sysctl-linux-bede.conf
 	sha256sums = 4a622cc84b8a3c38d39bc17195b0c064d2b46945dfde0dae18f77b120bc9f3ae
 	sha256sums = SKIP
-	sha256sums = 2c7f73f16d11edd23acf2a5f0c3ccaa263c5c7508a3cf0804ac721febc201f39
-	sha256sums = db32cb201fe41adacfc614f00a9bfd641db88a388d4ca83f16cd4c1407a1fb14
+	sha256sums = d255ebfd47ef557d84aa86acb0e7cddab479fdc0bc20fd96acdad85f88076f6d
+	sha256sums = 78ab9fa8e81b2afa5a34d9748cd46854a77a11e072bfb6429eae23a2fb2bfe12
 	sha256sums = d5bb4aabbd556f8a3452198ac42cad6ecfae020b124bcfea0aa7344de2aec3b5
 	sha256sums = cc0fa883ee34a705c31ea6262a8a61f292d1312d34333dbbde60d45fc976778b
 
