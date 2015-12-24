@@ -21,7 +21,7 @@ else
     _linuxname="linux-$_basekernel"
     _grsec=1
 fi
-pkgrel=2.1
+pkgrel=2.2
 arch=('i686' 'x86_64')
 license=('GPL2')
 makedepends=('bc' 'kmod')
@@ -236,15 +236,6 @@ package_linux-bede() {
     # move module tree /lib -> /usr/lib
     mv "$pkgdir/lib" "$pkgdir/usr/"
 
-    # add grsecurity gcc plugins
-    mkdir -p "$pkgdir/usr/lib/modules/$_kernver/build/tools/gcc"
-    cp -a tools/gcc/*.h "$pkgdir/usr/lib/modules/$_kernver/build/tools/gcc/"
-    cp -a tools/gcc/Makefile "$pkgdir/usr/lib/modules/$_kernver/build/tools/gcc/"
-    install -m644 tools/gcc/*.so "$pkgdir/usr/lib/modules/$_kernver/build/tools/gcc/"
-    mkdir -p "$pkgdir/usr/lib/modules/$_kernver/build/tools/gcc/size_overflow_plugin"
-    install -m644 tools/gcc/size_overflow_plugin/Makefile tools/gcc/size_overflow_plugin/*.so \
-        "$pkgdir/usr/lib/modules/$_kernver/build/tools/gcc/size_overflow_plugin"
-
     # install sysctl tweaks
     install -Dm644 "$srcdir/sysctl-linux-bede.conf" "$pkgdir/usr/lib/sysctl.d/60-linux-bede.conf"
 }
@@ -315,6 +306,15 @@ package_linux-bede-headers() {
                 ;;
         esac
     done
+
+    # add grsecurity gcc plugins
+    mkdir -p "$pkgdir/usr/lib/modules/$_kernver/build/tools/gcc"
+    cp -a tools/gcc/*.h "$pkgdir/usr/lib/modules/$_kernver/build/tools/gcc/"
+    cp -a tools/gcc/Makefile "$pkgdir/usr/lib/modules/$_kernver/build/tools/gcc/"
+    install -m644 tools/gcc/*.so "$pkgdir/usr/lib/modules/$_kernver/build/tools/gcc/"
+    mkdir -p "$pkgdir/usr/lib/modules/$_kernver/build/tools/gcc/size_overflow_plugin"
+    install -m644 tools/gcc/size_overflow_plugin/Makefile tools/gcc/size_overflow_plugin/*.so \
+        "$pkgdir/usr/lib/modules/$_kernver/build/tools/gcc/size_overflow_plugin"
 
     chown -R root:root "$pkgdir/usr/src/linux-$_kernver"
     find "$pkgdir/usr/src/linux-$_kernver" -type d -exec chmod 755 {} \;
