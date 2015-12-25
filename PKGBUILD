@@ -13,15 +13,13 @@ if [[ "$_patchver" == rc* ]]; then
     _baseurl='https://www.kernel.org/pub/linux/kernel/v4.x/testing'
     pkgver=${_basekernel}$_patchver
     _linuxname="linux-${_basekernel}-$_patchver"
-    _grsec=0
 else
     # $_patchver is no RC build normal
     _baseurl='https://www.kernel.org/pub/linux/kernel/v4.x'
     pkgver=$_basekernel
     _linuxname="linux-$_basekernel"
-    _grsec=1
 fi
-pkgrel=2
+pkgrel=1
 arch=('i686' 'x86_64')
 license=('GPL2')
 makedepends=('bc' 'kmod')
@@ -31,7 +29,6 @@ options=(!strip)
 validpgpkeys=(
     'ABAF11C65A2970B130ABE3C479BE3E4300411886'
     '647F28654894E3BD457199BE38DBBDC86092693E'
-    'DE9452CE46F42094907F108B44D1C0F82525FE49'
 )
 
 source=(
@@ -48,8 +45,8 @@ source=(
 sha256sums=(
     '4a622cc84b8a3c38d39bc17195b0c064d2b46945dfde0dae18f77b120bc9f3ae'
     'SKIP'
-    '0333a85694b3064ffd7cf3bccd51c7aa130d4eea722d613f579cc56236ea3dd1'
-    'fcb83927de81eecdb5cb257cfaf18c3a0f42d71e43b67f8a2fd148254831c869'
+    'd255ebfd47ef557d84aa86acb0e7cddab479fdc0bc20fd96acdad85f88076f6d'
+    '78ab9fa8e81b2afa5a34d9748cd46854a77a11e072bfb6429eae23a2fb2bfe12'
     'd5bb4aabbd556f8a3452198ac42cad6ecfae020b124bcfea0aa7344de2aec3b5'
     'cc0fa883ee34a705c31ea6262a8a61f292d1312d34333dbbde60d45fc976778b'
 )
@@ -59,37 +56,29 @@ if [[ "$_patchver" =~ ^[0-9]*$ ]]; then
     if [[ $_patchver -ne 0 ]]; then
         pkgver=$_basekernel.$_patchver
         _patchname="patch-$pkgver"
-        source+=(
+        source=( "${source[@]}"
             "$_baseurl/$_patchname.xz"
             "$_baseurl/$_patchname.sign"
         )
-        sha256sums+=(
+        sha256sums=( "${sha256sums[@]}"
             '95cd81fcbb87953f672150d60950548edc04a88474c42de713b91811557fefa5'
             'SKIP'
         )
     fi
 fi
 
-## grsec
-if [[ $_grsec -eq 1 ]]; then
-    _grsecver="3.1"
-    _grsecdate="201512222129"
-    _extrapatches=(
-        "http://grsecurity.net/test/grsecurity-$_grsecver-$pkgver-$_grsecdate.patch"
-        "http://grsecurity.net/test/grsecurity-$_grsecver-$pkgver-$_grsecdate.patch.sig"
-    )
-    _extrapatchessums=(
-        '59f2f5ee4e921a9f4a1601e7069eb46c768782441e678b873ddbfb607253ab67'
-        'SKIP'
-    )
-    if [[ ${#_extrapatches[@]} -ne 0 ]]; then
-        source=( "${source[@]}"
+## extra patches
+_extrapatches=(
+)
+_extrapatchessums=(
+)
+if [[ ${#_extrapatches[@]} -ne 0 ]]; then
+    source=( "${source[@]}"
         "${_extrapatches[@]}"
-        )
-        sha256sums=( "${sha256sums[@]}"
+    )
+    sha256sums=( "${sha256sums[@]}"
         "${_extrapatchessums[@]}"
-        )
-    fi
+    )
 fi
 
 prepare() {
@@ -106,16 +95,13 @@ prepare() {
     # extra patches
     for patch in ${_extrapatches[@]}; do
         patch="$(basename "$patch" | sed -e 's/\.\(gz\|bz2\|xz\)//')"
-        pext=${patch##*.}
-        if [[ "$pext" == 'patch' ]] || [[ "$pext" == 'diff' ]]; then
-            msg2 "apply $patch"
-            patch -Np1 -i "$srcdir/$patch"
-        fi
+        msg2 "apply $patch"
+        patch -Np1 -i "$srcdir/$patch"
     done
 
     # set configuration
     msg2 "copy configuration"
-    if [[ "$CARCH" == "x86_64" ]]; then
+    if [[ "$CARCH" = "x86_64" ]]; then
         cat "$srcdir/config-desktop.x86_64" >./.config
     else
         cat "$srcdir/config-desktop.i686" >./.config
@@ -138,11 +124,6 @@ prepare() {
     # hack to prevent output kernel from being marked as dirty or git
     msg2 "apply hack to prevent kernel tree being marked dirty"
     echo "" > "$srcdir/$_linuxname/.scmversion"
-
-    if [[ $_grsec -eq 1 ]]; then
-        msg2 "empty -grsec localversion"
-        echo "" > "$srcdir/linux-$_basekernel/localversion-grsec"
-    fi
 }
 
 build() {
@@ -178,7 +159,6 @@ package_linux-bede() {
     optdepends=(
         'crda: to set the correct wireless channels of your country'
         'linux-firmware: when having some hardware needing special firmware'
-        'paxd: automatically configure PAX exceptions'
     )
 
     install=$pkgname.install
