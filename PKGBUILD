@@ -19,7 +19,7 @@ else
     pkgver=$_basekernel
     _linuxname="linux-$_basekernel"
 fi
-pkgrel=1
+pkgrel=2
 arch=('i686' 'x86_64')
 license=('GPL2')
 makedepends=('bc' 'kmod')
@@ -95,8 +95,11 @@ prepare() {
     # extra patches
     for patch in ${_extrapatches[@]}; do
         patch="$(basename "$patch" | sed -e 's/\.\(gz\|bz2\|xz\)//')"
-        msg2 "apply $patch"
-        patch -Np1 -i "$srcdir/$patch"
+        pext=${patch##*.}
+        if [[ "$pext" == 'patch' ]] || [[ "$pext" == 'diff' ]]; then
+            msg2 "apply $patch"
+            patch -Np1 -i "$srcdir/$patch"
+        fi
     done
 
     # set configuration
@@ -262,12 +265,18 @@ package_linux-bede-headers() {
 
     # add headers
     for header in `find -size +1c -name '*.h'`; do
+        if [[ "$header" =~ /arch/.*/ ]] && ! [[ "$header" =~ "/arch/x86/" ]]; then
+            continue
+        fi
         mkdir -p "$pkgdir/usr/src/linux-$_kernver/$(dirname $header)"
         cp -a $header "$pkgdir/usr/src/linux-$_kernver/$(dirname $header)"
     done
 
     # copy in Kconfig files
     for i in `find . -name "Kconfig*"`; do
+        if [[ "$i" =~ /arch/.*/ ]] && ! [[ "$i" =~ "/arch/x86/" ]]; then
+            continue
+        fi
         mkdir -p "$pkgdir/usr/src/linux-$_kernver/$(echo $i | sed 's|/Kconfig.*||')"
         cp $i "$pkgdir/usr/src/linux-$_kernver/$i"
     done
@@ -289,7 +298,4 @@ package_linux-bede-headers() {
 
     chown -R root:root "$pkgdir/usr/src/linux-$_kernver"
     find "$pkgdir/usr/src/linux-$_kernver" -type d -exec chmod 755 {} \;
-    # remove unneeded architectures
-    rm -rf "$pkgdir/usr/src/linux-$_kernver/arch"/{alpha,arm,arm26,avr32,blackfin,cris,frv,h8300,ia64,m32r,m68k,m68knommu,mips,microblaze,mn10300,parisc,powerpc,ppc,s390,score,sh,sh64,sparc,sparc64,tile,um,v850,xtensa,arm64,c6x,hexagon,openrisc,unicore32,ig,arc,metag,nios2}
-    rm -rf "$pkgdir/usr/src/linux-$_kernver/tools/perf/arch"/{arm,arm64}
 }
