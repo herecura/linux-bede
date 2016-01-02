@@ -19,7 +19,7 @@ else
     pkgver=$_basekernel
     _linuxname="linux-$_basekernel"
 fi
-pkgrel=2
+pkgrel=3
 arch=('i686' 'x86_64')
 license=('GPL2')
 makedepends=('bc' 'kmod')
@@ -227,6 +227,8 @@ package_linux-bede-headers() {
     pkgdesc="Header files and scripts for building modules for linux$_kernelname"
     provides=('linux-headers')
 
+    KARCH=x86
+
     install -dm755 "$pkgdir/usr/lib/modules/$_kernver"
     cd "$pkgdir/usr/lib/modules/$_kernver"
     ln -sf ../../../src/linux-$_kernver build
@@ -238,48 +240,24 @@ package_linux-bede-headers() {
     install -D -m644 .config \
         "$pkgdir/usr/src/linux-$_kernver/.config"
 
-    # copy files necessary for later builds, like nvidia and vmware
-    cp Module.symvers "$pkgdir/usr/src/linux-$_kernver"
-    cp -a scripts "$pkgdir/usr/src/linux-$_kernver"
-    # fix permissions on scripts dir
-    chmod og-w -R "$pkgdir/usr/src/linux-$_kernver/scripts"
-    mkdir -p "$pkgdir/usr/src/linux-$_kernver/.tmp_versions"
-
-    mkdir -p "$pkgdir/usr/src/linux-$_kernver/arch/$KARCH/kernel"
-
-    cp arch/$KARCH/Makefile "$pkgdir/usr/src/linux-$_kernver/arch/$KARCH/"
-    if [[ "$CARCH" = "i686" ]]; then
-        cp arch/$KARCH/Makefile_32.cpu "$pkgdir/usr/src/linux-$_kernver/arch/$KARCH/"
-    fi
-    cp arch/$KARCH/kernel/asm-offsets.s "$pkgdir/usr/src/linux-$_kernver/arch/$KARCH/kernel/"
+    find . -path './include/*' -prune -o -path './scripts/*' -prune \
+        -o -type f \( -name 'Makefile*' -o -name 'Kconfig*' \
+        -o -name 'Kbuild*' -o -name '*.sh' -o -name '*.pl' \
+        -o -name '*.lds' \) | bsdcpio -pdm "$pkgdir/usr/src/linux-$_kernver"
+    cp -a scripts include "$pkgdir/usr/src/linux-$_kernver"
+    find $(find arch/$KARCH -name include -type d -print) -type f \
+        | bsdcpio -pdm "$pkgdir/usr/src/linux-$_kernver"
+    install -Dm644 Module.symvers "$pkgdir/usr/src/linux-$_kernver"
 
     # add docbook makefile
     install -D -m644 Documentation/DocBook/Makefile \
         "$pkgdir/usr/src/linux-$_kernver/Documentation/DocBook/Makefile"
 
     # add config
-    for config in `find ./include/config -size +1c -type f`; do
-        mkdir -p "$pkgdir/usr/src/linux-$_kernver/$(dirname $config)"
-        cp -a $config "$pkgdir/usr/src/linux-$_kernver/$(dirname $config)"
-    done
-
-    # add headers
-    for header in `find -size +1c -name '*.h'`; do
-        if [[ "$header" =~ /arch/.*/ ]] && ! [[ "$header" =~ "/arch/x86/" ]]; then
-            continue
-        fi
-        mkdir -p "$pkgdir/usr/src/linux-$_kernver/$(dirname $header)"
-        cp -a $header "$pkgdir/usr/src/linux-$_kernver/$(dirname $header)"
-    done
-
-    # copy in Kconfig files
-    for i in `find . -name "Kconfig*"`; do
-        if [[ "$i" =~ /arch/.*/ ]] && ! [[ "$i" =~ "/arch/x86/" ]]; then
-            continue
-        fi
-        mkdir -p "$pkgdir/usr/src/linux-$_kernver/$(echo $i | sed 's|/Kconfig.*||')"
-        cp $i "$pkgdir/usr/src/linux-$_kernver/$i"
-    done
+    #for config in `find ./include/config -size +1c -type f`; do
+        #mkdir -p "$pkgdir/usr/src/linux-$_kernver/$(dirname $config)"
+        #cp -a $config "$pkgdir/usr/src/linux-$_kernver/$(dirname $config)"
+    #done
 
     # strip scripts directory
     find "$pkgdir/usr/src/linux-$_kernver/scripts" -type f -perm -u+w 2>/dev/null | while read binary ; do
