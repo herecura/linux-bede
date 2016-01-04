@@ -7,7 +7,7 @@ _kernelname=-bede
 pkgbase="linux$_kernelname"
 pkgname=("linux$_kernelname" "linux$_kernelname-headers")
 _basekernel=4.4
-_patchver=rc7
+_patchver=rc8
 if [[ "$_patchver" == rc* ]]; then
     # rc kernel
     _baseurl='https://www.kernel.org/pub/linux/kernel/v4.x/testing'
@@ -19,7 +19,7 @@ else
     pkgver=$_basekernel
     _linuxname="linux-$_basekernel"
 fi
-pkgrel=3
+pkgrel=1
 arch=('i686' 'x86_64')
 license=('GPL2')
 makedepends=('bc' 'kmod')
@@ -43,7 +43,7 @@ source=(
     'sysctl-linux-bede.conf'
 )
 sha256sums=(
-    '1dea7f9bf905f44bd340cb23014dc88db6080f21e030026533476acc91199386'
+    '92ef16744f1c2849cfff72b1958bbb52da52fd18eba43c9a540d7e9f29408e33'
     'SKIP'
     '5fcf92f266f216e6620488c910e6c472adf023e2c0fa3ef98e7e9fb750757c50'
     '0b8e319a5cc69dadea537063e6855f3a5ff8e2f206cb59d295c5832ecde4138f'
@@ -252,12 +252,6 @@ package_linux-bede-headers() {
     # add docbook makefile
     install -D -m644 Documentation/DocBook/Makefile \
         "$pkgdir/usr/src/linux-$_kernver/Documentation/DocBook/Makefile"
-
-    # add config
-    #for config in `find ./include/config -size +1c -type f`; do
-        #mkdir -p "$pkgdir/usr/src/linux-$_kernver/$(dirname $config)"
-        #cp -a $config "$pkgdir/usr/src/linux-$_kernver/$(dirname $config)"
-    #done
 
     # strip scripts directory
     find "$pkgdir/usr/src/linux-$_kernver/scripts" -type f -perm -u+w 2>/dev/null | while read binary ; do
