@@ -7,7 +7,7 @@ _kernelname=-bede
 pkgbase="linux$_kernelname"
 pkgname=("linux$_kernelname" "linux$_kernelname-headers")
 _basekernel=4.5
-_patchver=rc7
+_patchver=0
 if [[ "$_patchver" == rc* ]]; then
     # rc kernel
     _baseurl='https://www.kernel.org/pub/linux/kernel/v4.x/testing'
@@ -19,7 +19,7 @@ else
     pkgver=$_basekernel
     _linuxname="linux-$_basekernel"
 fi
-pkgrel=3
+pkgrel=1
 arch=('i686' 'x86_64')
 license=('GPL2')
 makedepends=('bc' 'kmod')
@@ -43,7 +43,7 @@ source=(
     'sysctl-linux-bede.conf'
 )
 sha256sums=(
-    '7812f21b12eab15b6b2e5fff2d1f157daea17fdc52db48f68bb8cec8d8d1837c'
+    'a40defb401e01b37d6b8c8ad5c1bbab665be6ac6310cdeed59950c96b31a519c'
     'SKIP'
     '35ca6ee62c279e06e37a825bcabe60569991e243b7ab9677fcfa8b2395efbe0a'
     '3b1e4044f5493422d82917978b7a0430a3a7ae3c8c37604ee2fba15823821189'
