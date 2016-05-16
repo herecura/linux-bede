@@ -19,7 +19,7 @@ else
     pkgver=$_basekernel
     _linuxname="linux-$_basekernel"
 fi
-pkgrel=1
+pkgrel=1.1
 arch=('i686' 'x86_64')
 license=('GPL2')
 makedepends=('bc' 'kmod')
@@ -45,8 +45,8 @@ source=(
 sha256sums=(
     'a40defb401e01b37d6b8c8ad5c1bbab665be6ac6310cdeed59950c96b31a519c'
     'SKIP'
-    'e18f67ad9b2f4e27ff24d8599cb1080b746599089302b415e50749e622d94e33'
-    '1d3aabdbd10e6f4cd13bce8c347558ebb081cca22d752764129681bd377dab4e'
+    '1e0343a90f677d02ab76abdb1e7e34aed0e51ecf687c05c1040eee79733c2fe1'
+    '08123b0b68267a31f3c371a1a2e1bad17fc6b1b78d6ae9cb2d95ecb1538753db'
     'd5bb4aabbd556f8a3452198ac42cad6ecfae020b124bcfea0aa7344de2aec3b5'
     '52ca7070a2956cc92f4be05809f02e9dd1e1fa896c1d73ba286ebb79a33ed5ec'
 )
@@ -69,8 +69,10 @@ fi
 
 ## extra patches
 _extrapatches=(
+    'https://www.grsecurity.net/~paxguy1/pax-linux-4.5.4-test7.patch'
 )
 _extrapatchessums=(
+    'c143b170bebb6e01f6b1d6c0dcf824816687caa05bf136fb25b89d69c5e99863'
 )
 if [[ ${#_extrapatches[@]} -ne 0 ]]; then
     source=( "${source[@]}"
