@@ -19,7 +19,7 @@ else
     pkgver=$_basekernel
     _linuxname="linux-$_basekernel"
 fi
-pkgrel=1.1
+pkgrel=1.2
 arch=('i686' 'x86_64')
 license=('GPL2')
 makedepends=('bc' 'kmod')
@@ -164,6 +164,7 @@ package_linux-bede() {
     optdepends=(
         'crda: to set the correct wireless channels of your country'
         'linux-firmware: when having some hardware needing special firmware'
+        'paxd: automatically configure PAX exceptions'
     )
 
     install=$pkgname.install
