@@ -19,7 +19,7 @@ else
     pkgver=$_basekernel
     _linuxname="linux-$_basekernel"
 fi
-pkgrel=1
+pkgrel=2
 arch=('i686' 'x86_64')
 license=('GPL2')
 makedepends=('bc' 'kmod')
@@ -69,8 +69,16 @@ fi
 
 ## extra patches
 _extrapatches=(
+    # arch patches
+    '0001-linux-4.6-rtlwifi-fix-atomic.patch'
+    # macbook patches
+    'apple-gmux.patch'
+    'macbook-suspend.patch'
 )
 _extrapatchessums=(
+    'ae0d16e81a915fae130125ba9d0b6fd2427e06f50b8b9514abc4029efe61ee98'
+    'bb8af32880059e681396a250d8e78f600f248da8ad4f0e76d7923badb5ee8b42'
+    '103cac598bf92519d6c0b04ca729565bad75015daade422c81225e399c967b4c'
 )
 if [[ ${#_extrapatches[@]} -ne 0 ]]; then
     source=( "${source[@]}"
