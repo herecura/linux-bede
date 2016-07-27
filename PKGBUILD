@@ -19,7 +19,7 @@ else
     pkgver=$_basekernel
     _linuxname="linux-$_basekernel"
 fi
-pkgrel=0.5
+pkgrel=1
 arch=('i686' 'x86_64')
 license=('GPL2')
 makedepends=('bc' 'kmod')
@@ -69,8 +69,12 @@ fi
 
 ## extra patches
 _extrapatches=(
+    'apple-gmux.patch'
+    'macbook-suspend.patch'
 )
 _extrapatchessums=(
+    'bb8af32880059e681396a250d8e78f600f248da8ad4f0e76d7923badb5ee8b42'
+    '103cac598bf92519d6c0b04ca729565bad75015daade422c81225e399c967b4c'
 )
 if [[ ${#_extrapatches[@]} -ne 0 ]]; then
     source=( "${source[@]}"
