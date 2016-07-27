@@ -2,7 +2,7 @@
 # arg 2:  the old package version
 
 KERNEL_NAME=-bede
-KERNEL_VERSION=4.6.4-2-BEDE
+KERNEL_VERSION=4.7.0-0.5-BEDE
 
 post_install () {
   # updating module dependencies

@@ -6,8 +6,8 @@
 _kernelname=-bede
 pkgbase="linux$_kernelname"
 pkgname=("linux$_kernelname" "linux$_kernelname-headers")
-_basekernel=4.6
-_patchver=4
+_basekernel=4.7
+_patchver=0
 if [[ "$_patchver" == rc* ]]; then
     # rc kernel
     _baseurl='https://www.kernel.org/pub/linux/kernel/v4.x/testing'
@@ -19,7 +19,7 @@ else
     pkgver=$_basekernel
     _linuxname="linux-$_basekernel"
 fi
-pkgrel=2
+pkgrel=0.5
 arch=('i686' 'x86_64')
 license=('GPL2')
 makedepends=('bc' 'kmod')
@@ -43,10 +43,10 @@ source=(
     'sysctl-linux-bede.conf'
 )
 sha256sums=(
-    'a93771cd5a8ad27798f22e9240538dfea48d3a2bf2a6a6ab415de3f02d25d866'
+    '5190c3d1209aeda04168145bf50569dc0984f80467159b1dc50ad731e3285f10'
     'SKIP'
-    '5d061c82dd4e42de2f334d041634fcf98b99ae1c1e0d2cd54d5c463777a439bc'
-    '7c2f7f002a49d29ecc1ea34533aca92f6ea95602c432afcaefc9b702271d9e0d'
+    '33734a8ef124d9aa5518d398f6cb8b0eb8d3d83147e8f932e7bbb544cc5f64a9'
+    '444d562770fc3dca5da894fc547ea9110853c22fe4dff756a96193168842e805'
     'd5bb4aabbd556f8a3452198ac42cad6ecfae020b124bcfea0aa7344de2aec3b5'
     '52ca7070a2956cc92f4be05809f02e9dd1e1fa896c1d73ba286ebb79a33ed5ec'
 )
@@ -61,7 +61,7 @@ if [[ "$_patchver" =~ ^[0-9]*$ ]]; then
             "$_baseurl/$_patchname.sign"
         )
         sha256sums=( "${sha256sums[@]}"
-            'f500a3b841c41420914938d681e258c712fbbd7ebec5fe70f0abc071a1738e47'
+            ''
             'SKIP'
         )
     fi
@@ -69,16 +69,8 @@ fi
 
 ## extra patches
 _extrapatches=(
-    # arch patches
-    '0001-linux-4.6-rtlwifi-fix-atomic.patch'
-    # macbook patches
-    'apple-gmux.patch'
-    'macbook-suspend.patch'
 )
 _extrapatchessums=(
-    'ae0d16e81a915fae130125ba9d0b6fd2427e06f50b8b9514abc4029efe61ee98'
-    'bb8af32880059e681396a250d8e78f600f248da8ad4f0e76d7923badb5ee8b42'
-    '103cac598bf92519d6c0b04ca729565bad75015daade422c81225e399c967b4c'
 )
 if [[ ${#_extrapatches[@]} -ne 0 ]]; then
     source=( "${source[@]}"
