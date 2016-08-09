@@ -1,0 +1,13 @@
+dependencypackages=(
+    'broadcom-wl-bede'
+    'nvidia-340xx-bede'
+    'nvidia-bede'
+    'virtualbox-modules-bede'
+)
+
+pkgupdate=$(cat <<EOF
+update__current_linux_version=$pkgver
+update_pkgver="\$pkgver"
+update_pkgrel="\$(expr \$pkgrel + 1)"
+EOF
+)
