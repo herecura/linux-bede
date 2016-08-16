@@ -7,7 +7,7 @@ _kernelname=-bede
 pkgbase="linux$_kernelname"
 pkgname=("linux$_kernelname" "linux$_kernelname-headers")
 _basekernel=4.7
-_patchver=0
+_patchver=1
 if [[ "$_patchver" == rc* ]]; then
     # rc kernel
     _baseurl='https://www.kernel.org/pub/linux/kernel/v4.x/testing'
@@ -42,14 +42,16 @@ source=(
     # sysctl tweaks
     'sysctl-linux-bede.conf'
 )
-sha256sums=(
-    '5190c3d1209aeda04168145bf50569dc0984f80467159b1dc50ad731e3285f10'
-    'SKIP'
-    '33734a8ef124d9aa5518d398f6cb8b0eb8d3d83147e8f932e7bbb544cc5f64a9'
-    '444d562770fc3dca5da894fc547ea9110853c22fe4dff756a96193168842e805'
-    'd5bb4aabbd556f8a3452198ac42cad6ecfae020b124bcfea0aa7344de2aec3b5'
-    '52ca7070a2956cc92f4be05809f02e9dd1e1fa896c1d73ba286ebb79a33ed5ec'
-)
+sha256sums=('5190c3d1209aeda04168145bf50569dc0984f80467159b1dc50ad731e3285f10'
+            'SKIP'
+            '33734a8ef124d9aa5518d398f6cb8b0eb8d3d83147e8f932e7bbb544cc5f64a9'
+            '444d562770fc3dca5da894fc547ea9110853c22fe4dff756a96193168842e805'
+            'd5bb4aabbd556f8a3452198ac42cad6ecfae020b124bcfea0aa7344de2aec3b5'
+            '52ca7070a2956cc92f4be05809f02e9dd1e1fa896c1d73ba286ebb79a33ed5ec'
+            '838fa595436fbf9f70759aa43c1cacd83cc0adc95d166648c1625ebd50fad04e'
+            'SKIP'
+            'bb8af32880059e681396a250d8e78f600f248da8ad4f0e76d7923badb5ee8b42'
+            '103cac598bf92519d6c0b04ca729565bad75015daade422c81225e399c967b4c')
 
 # revision patches
 if [[ "$_patchver" =~ ^[0-9]*$ ]]; then
@@ -59,10 +61,6 @@ if [[ "$_patchver" =~ ^[0-9]*$ ]]; then
         source=( "${source[@]}"
             "$_baseurl/$_patchname.xz"
             "$_baseurl/$_patchname.sign"
-        )
-        sha256sums=( "${sha256sums[@]}"
-            ''
-            'SKIP'
         )
     fi
 fi
@@ -79,9 +77,6 @@ _extrapatchessums=(
 if [[ ${#_extrapatches[@]} -ne 0 ]]; then
     source=( "${source[@]}"
         "${_extrapatches[@]}"
-    )
-    sha256sums=( "${sha256sums[@]}"
-        "${_extrapatchessums[@]}"
     )
 fi
 
