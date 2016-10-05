@@ -19,7 +19,7 @@ else
     pkgver=$_basekernel
     _linuxname="linux-$_basekernel"
 fi
-pkgrel=1
+pkgrel=2
 arch=('i686' 'x86_64')
 license=('GPL2')
 makedepends=('bc' 'kmod')
@@ -59,10 +59,8 @@ fi
 _extrapatches=(
     'apple-gmux.patch'
     'macbook-suspend.patch'
-)
-_extrapatchessums=(
-    'bb8af32880059e681396a250d8e78f600f248da8ad4f0e76d7923badb5ee8b42'
-    '103cac598bf92519d6c0b04ca729565bad75015daade422c81225e399c967b4c'
+    'poweroff-quirk-workaround.patch'
+    'intel-pstate-backport.patch'
 )
 if [[ ${#_extrapatches[@]} -ne 0 ]]; then
     source=( "${source[@]}"
@@ -79,7 +77,9 @@ sha256sums=('5190c3d1209aeda04168145bf50569dc0984f80467159b1dc50ad731e3285f10'
             '2e425c268076c3b186107edf9045e0910088699e077282b5187efb5edf2b8836'
             'SKIP'
             'bb8af32880059e681396a250d8e78f600f248da8ad4f0e76d7923badb5ee8b42'
-            '103cac598bf92519d6c0b04ca729565bad75015daade422c81225e399c967b4c')
+            '4d4a622733c2ba742256f369c32a1e98fc216966589f260c7457d299dbb55971'
+            '09189eb269a9fd16898cf90a477df23306236fb897791e8d04e5a75d5007bbff'
+            '7094cbcfd657dbc1c17721d4f248f9f98511d803bc4be6d66637388801afdebc')
 
 prepare() {
     cd "$srcdir/$_linuxname"
