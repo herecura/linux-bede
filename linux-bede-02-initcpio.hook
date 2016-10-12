@@ -1,0 +1,10 @@
+[Trigger]
+Type = File
+Operation = Install
+Operation = Upgrade
+Target = usr/lib/modules/*-BEDE-external/*
+
+[Action]
+Description = Regenerate initcpio for linux-bede
+When = PostTransaction
+Exec = /usr/bin/mkinitcpio -p linux-bede

@@ -6,8 +6,8 @@
 _kernelname=-bede
 pkgbase="linux$_kernelname"
 pkgname=("linux$_kernelname" "linux$_kernelname-headers")
-_basekernel=4.7
-_patchver=7
+_basekernel=4.8
+_patchver=1
 if [[ "$_patchver" == rc* ]]; then
     # rc kernel
     _baseurl='https://www.kernel.org/pub/linux/kernel/v4.x/testing'
@@ -39,6 +39,10 @@ source=(
     "config-desktop.x86_64"
     # standard config files for mkinitcpio ramdisk
     "linux$_kernelname.preset"
+    # pacman hooks
+    'linux-bede-01-depmod.hook'
+    'linux-bede-02-initcpio.hook'
+    'linux-bede-remove.hook'
     # sysctl tweaks
     'sysctl-linux-bede.conf'
 )
@@ -68,18 +72,21 @@ if [[ ${#_extrapatches[@]} -ne 0 ]]; then
     )
 fi
 
-sha256sums=('5190c3d1209aeda04168145bf50569dc0984f80467159b1dc50ad731e3285f10'
+sha256sums=('3e9150065f193d3d94bcf46a1fe9f033c7ef7122ab71d75a7fb5a2f0c9a7e11a'
             'SKIP'
-            '33734a8ef124d9aa5518d398f6cb8b0eb8d3d83147e8f932e7bbb544cc5f64a9'
-            '444d562770fc3dca5da894fc547ea9110853c22fe4dff756a96193168842e805'
+            'ac5564f2626df256c15b5cfdfa8d5cd59b4a337cccd469bfe368a64c6166d5ba'
+            '358d449a8892d10d88706fe6d297768f0ab9352f1e3d0372257f84b1b244ba45'
             'd5bb4aabbd556f8a3452198ac42cad6ecfae020b124bcfea0aa7344de2aec3b5'
+            'bb157f841770f8fea7ba16388b23ab8d544c1bd618e4324f1b40929f72507f21'
+            '765beb01fdc09f2fd6664225b65fa19b75bef60a33735190c144e0e2fa9ac9b3'
+            '9cd6707cf3b9f0f9bf28b73c0a44b36f0da97c5144a53a86f225f87264cf51d9'
             '52ca7070a2956cc92f4be05809f02e9dd1e1fa896c1d73ba286ebb79a33ed5ec'
-            'b1019b88cbced3eced1fe0a908eaac061282f39c559eaa3ea0fd3ee1b089e17e'
+            '79c7bda5b4ac4dee7791f34448464f7aa74d498f80df6e1e5ab73f96c5baea41'
             'SKIP'
             'bb8af32880059e681396a250d8e78f600f248da8ad4f0e76d7923badb5ee8b42'
             '4d4a622733c2ba742256f369c32a1e98fc216966589f260c7457d299dbb55971'
             '09189eb269a9fd16898cf90a477df23306236fb897791e8d04e5a75d5007bbff'
-            '7094cbcfd657dbc1c17721d4f248f9f98511d803bc4be6d66637388801afdebc')
+            'c0a25b413bc542472868c63318213dfe788beeece750d15f7ff1568aca8968ec')
 
 prepare() {
     cd "$srcdir/$_linuxname"
@@ -218,6 +225,11 @@ package_linux-bede() {
 
     # move module tree /lib -> /usr/lib
     mv "$pkgdir/lib" "$pkgdir/usr/"
+
+    # install pacman hooks
+    install -Dm644 "$srcdir/linux-bede-01-depmod.hook" "$pkgdir/usr/share/libalpm/hooks/linux-bede-01-depmod.hook"
+    install -Dm644 "$srcdir/linux-bede-02-initcpio.hook" "$pkgdir/usr/share/libalpm/hooks/linux-bede-02-initcpio.hook"
+    install -Dm644 "$srcdir/linux-bede-remove.hook" "$pkgdir/usr/share/libalpm/hooks/linux-bede-remove.hook"
 
     # install sysctl tweaks
     install -Dm644 "$srcdir/sysctl-linux-bede.conf" "$pkgdir/usr/lib/sysctl.d/60-linux-bede.conf"

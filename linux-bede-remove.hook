@@ -1,0 +1,9 @@
+[Trigger]
+Type = File
+Operation = Remove
+Target = usr/lib/modules/*-BEDE-external/*
+
+[Action]
+Description = remove initramfs files for linux-bede
+When = PreTransaction
+Exec = /usr/bin/rm /boot/initramfs-bede*.img
