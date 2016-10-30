@@ -19,7 +19,7 @@ else
     pkgver=$_basekernel
     _linuxname="linux-$_basekernel"
 fi
-pkgrel=2.2
+pkgrel=3
 arch=('i686' 'x86_64')
 license=('GPL2')
 makedepends=('bc' 'kmod')
@@ -74,8 +74,8 @@ fi
 
 sha256sums=('3e9150065f193d3d94bcf46a1fe9f033c7ef7122ab71d75a7fb5a2f0c9a7e11a'
             'SKIP'
-            '76a17c3028d1508dbdc7fce4015f332c9f8323c6604a71743bf6659340eca529'
-            '84f7a4c4f940cce388f72b5fe5c61004e6107b2c14310c907007af0e996ae372'
+            'f3d62618f8e68f1d810395d71acfe86cf2c78620650ba9bd696edb0e05e1705f'
+            '6c837b5dbda3ec0ac290b4ebf41b867d0745f2168a49d8c50cff564fc6ed7eea'
             'd5bb4aabbd556f8a3452198ac42cad6ecfae020b124bcfea0aa7344de2aec3b5'
             'bb157f841770f8fea7ba16388b23ab8d544c1bd618e4324f1b40929f72507f21'
             '765beb01fdc09f2fd6664225b65fa19b75bef60a33735190c144e0e2fa9ac9b3'
