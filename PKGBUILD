@@ -19,8 +19,8 @@ else
     pkgver=$_basekernel
     _linuxname="linux-$_basekernel"
 fi
-pkgrel=1.4
-arch=('i686' 'x86_64')
+pkgrel=1.5
+arch=('x86_64')
 license=('GPL2')
 makedepends=('bc' 'kmod')
 url="http://www.kernel.org"
@@ -75,7 +75,7 @@ fi
 sha256sums=('3e9150065f193d3d94bcf46a1fe9f033c7ef7122ab71d75a7fb5a2f0c9a7e11a'
             'SKIP'
             'dfbaaa85935a984cbf298043077cf6944a00a016b1cdc1fcabdbd2bb8ac17e6a'
-            '3cefcb2f981eaf97627708c1e4013e1bee28d3330e2d80d8279fcb8ce2460895'
+            '98e6927fda5354790080ac19ff4bf75e2d8746f2812b8cc79851ab21fe3f6d50'
             'd5bb4aabbd556f8a3452198ac42cad6ecfae020b124bcfea0aa7344de2aec3b5'
             'bb157f841770f8fea7ba16388b23ab8d544c1bd618e4324f1b40929f72507f21'
             '765beb01fdc09f2fd6664225b65fa19b75bef60a33735190c144e0e2fa9ac9b3'
