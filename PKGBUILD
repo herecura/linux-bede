@@ -20,8 +20,7 @@ else
     _linuxname="linux-$_basekernel"
 fi
 pkgrel=1.3
-#arch=('i686' 'x86_64')
-arch=('x86_64')
+arch=('i686' 'x86_64')
 license=('GPL2')
 makedepends=('bc' 'kmod')
 url="http://www.kernel.org"
