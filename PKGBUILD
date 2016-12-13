@@ -6,8 +6,8 @@
 _kernelname=-bede
 pkgbase="linux$_kernelname"
 pkgname=("linux$_kernelname" "linux$_kernelname-headers")
-_basekernel=4.8
-_patchver=14
+_basekernel=4.9
+_patchver=0
 if [[ "$_patchver" == rc* ]]; then
     # rc kernel
     _baseurl='https://www.kernel.org/pub/linux/kernel/v4.x/testing'
@@ -19,7 +19,7 @@ else
     pkgver=$_basekernel
     _linuxname="linux-$_basekernel"
 fi
-pkgrel=2
+pkgrel=1
 arch=('i686' 'x86_64')
 license=('GPL2')
 makedepends=('bc' 'kmod')
@@ -72,21 +72,17 @@ if [[ ${#_extrapatches[@]} -ne 0 ]]; then
     )
 fi
 
-sha256sums=('3e9150065f193d3d94bcf46a1fe9f033c7ef7122ab71d75a7fb5a2f0c9a7e11a'
+sha256sums=('029098dcffab74875e086ae970e3828456838da6e0ba22ce3f64ef764f3d7f1a'
             'SKIP'
-            '21307cc7122a0ef4116417a547bd248eb34e7470e3be85707b5f0e7a05d7e49b'
-            '6034e52cbd391215477fdb5b8477451119fa8f6f6367a8c8b1529c3b30c60291'
+            'b6f2d6dfe8a48aa766d7d2df7fa218d47daf126c98eb24141abc1951e9e375b2'
+            '478bc9adaab42fac15742fe74bedec0d4103a36c0d91470610194bd114eaefd3'
             'd5bb4aabbd556f8a3452198ac42cad6ecfae020b124bcfea0aa7344de2aec3b5'
             'bb157f841770f8fea7ba16388b23ab8d544c1bd618e4324f1b40929f72507f21'
             'f295a668dbfbdd80ccb8f8b7056709aec61cd36f1824b981f5862664dede736a'
             'b6d7efc16876bcc1f31690bc94e6a43bdd201e3070bf53159c6d8da708499e97'
             '52ca7070a2956cc92f4be05809f02e9dd1e1fa896c1d73ba286ebb79a33ed5ec'
-            'efa9b7d87a6ca67426e3d7f206ac987eb7cb31602ad2011e81060626de790fcb'
-            'SKIP'
             'bb8af32880059e681396a250d8e78f600f248da8ad4f0e76d7923badb5ee8b42'
-            '4d4a622733c2ba742256f369c32a1e98fc216966589f260c7457d299dbb55971'
-            '09189eb269a9fd16898cf90a477df23306236fb897791e8d04e5a75d5007bbff'
-            'c0a25b413bc542472868c63318213dfe788beeece750d15f7ff1568aca8968ec')
+            '09189eb269a9fd16898cf90a477df23306236fb897791e8d04e5a75d5007bbff')
 
 prepare() {
     cd "$srcdir/$_linuxname"
