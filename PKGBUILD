@@ -62,9 +62,7 @@ fi
 ## extra patches
 _extrapatches=(
     'apple-gmux.patch'
-    'macbook-suspend.patch'
     'poweroff-quirk-workaround.patch'
-    'intel-pstate-backport.patch'
 )
 if [[ ${#_extrapatches[@]} -ne 0 ]]; then
     source=( "${source[@]}"
