@@ -19,7 +19,7 @@ else
     pkgver=$_basekernel
     _linuxname="linux-$_basekernel"
 fi
-pkgrel=1
+pkgrel=2
 arch=('i686' 'x86_64')
 license=('GPL2')
 makedepends=('bc' 'kmod')
@@ -63,6 +63,7 @@ fi
 _extrapatches=(
     'apple-gmux.patch'
     'poweroff-quirk-workaround.patch'
+    'macbook-suspend.patch'
 )
 if [[ ${#_extrapatches[@]} -ne 0 ]]; then
     source=( "${source[@]}"
@@ -77,12 +78,13 @@ sha256sums=('029098dcffab74875e086ae970e3828456838da6e0ba22ce3f64ef764f3d7f1a'
             'd5bb4aabbd556f8a3452198ac42cad6ecfae020b124bcfea0aa7344de2aec3b5'
             'bb157f841770f8fea7ba16388b23ab8d544c1bd618e4324f1b40929f72507f21'
             'f295a668dbfbdd80ccb8f8b7056709aec61cd36f1824b981f5862664dede736a'
-            'b6d7efc16876bcc1f31690bc94e6a43bdd201e3070bf53159c6d8da708499e97'
+            '34cb483d26fa10d756fcc3468c13faa6f6a1ac4ac8112f3a4ec23c072b1e62d0'
             '52ca7070a2956cc92f4be05809f02e9dd1e1fa896c1d73ba286ebb79a33ed5ec'
             'db4a5bade2a07d2f801e8c5c39dd310f35cfbbe90a953938cfbc14495b3e520c'
             'SKIP'
             'bb8af32880059e681396a250d8e78f600f248da8ad4f0e76d7923badb5ee8b42'
-            '09189eb269a9fd16898cf90a477df23306236fb897791e8d04e5a75d5007bbff')
+            '09189eb269a9fd16898cf90a477df23306236fb897791e8d04e5a75d5007bbff'
+            'fd195000a47ffadfcdf108d3aec5b7472ca2ed9e72f6271cd7b8f380132d7a20')
 
 prepare() {
     cd "$srcdir/$_linuxname"
