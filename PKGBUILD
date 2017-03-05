@@ -6,8 +6,8 @@
 _kernelname=-bede
 pkgbase="linux$_kernelname"
 pkgname=("linux$_kernelname" "linux$_kernelname-headers")
-_basekernel=4.9
-_patchver=13
+_basekernel=4.10
+_patchver=1
 if [[ "$_patchver" == rc* ]]; then
     # rc kernel
     _baseurl='https://www.kernel.org/pub/linux/kernel/v4.x/testing'
@@ -71,16 +71,16 @@ if [[ ${#_extrapatches[@]} -ne 0 ]]; then
     )
 fi
 
-sha256sums=('029098dcffab74875e086ae970e3828456838da6e0ba22ce3f64ef764f3d7f1a'
+sha256sums=('3c95d9f049bd085e5c346d2c77f063b8425f191460fcd3ae9fe7e94e0477dc4b'
             'SKIP'
-            '8bf0ec905bbcf733895c28425b8dd887d8b7d5b8be7d67879cb3d590fd390acd'
-            '695c7537fb7e35b25aab98eeee4f84571dc15312ad0c5e9da341cfe943332dfa'
+            '33f1cac32efd6dbe20ba35e9541e0586d9f0c782b2b6e8b42c217e804587de01'
+            '5847eabfda374e23c80b4457adb4e270f5d21184f182e2f798bea34cc56ef925'
             'd5bb4aabbd556f8a3452198ac42cad6ecfae020b124bcfea0aa7344de2aec3b5'
             'bb157f841770f8fea7ba16388b23ab8d544c1bd618e4324f1b40929f72507f21'
             'f295a668dbfbdd80ccb8f8b7056709aec61cd36f1824b981f5862664dede736a'
             '34cb483d26fa10d756fcc3468c13faa6f6a1ac4ac8112f3a4ec23c072b1e62d0'
             '52ca7070a2956cc92f4be05809f02e9dd1e1fa896c1d73ba286ebb79a33ed5ec'
-            '87a0f07dd393e2d08850f0536417d091684535ff0c8ab8f8d9aeab1db38589bf'
+            'da560125aa350f76f0e4a5b9373a0d0a1c27ccefe3b7bd9231724f3a3c4ebb9e'
             'SKIP'
             'bb8af32880059e681396a250d8e78f600f248da8ad4f0e76d7923badb5ee8b42'
             '09189eb269a9fd16898cf90a477df23306236fb897791e8d04e5a75d5007bbff'
