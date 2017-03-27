@@ -7,7 +7,7 @@ _kernelname=-bede
 pkgbase="linux$_kernelname"
 pkgname=("linux$_kernelname" "linux$_kernelname-headers")
 _basekernel=4.11
-_patchver=rc3
+_patchver=rc4
 if [[ "$_patchver" == rc* ]]; then
     # rc kernel
     _baseurl='https://www.kernel.org/pub/linux/kernel/v4.x/testing'
@@ -71,10 +71,10 @@ if [[ ${#_extrapatches[@]} -ne 0 ]]; then
     )
 fi
 
-sha256sums=('bfef338a625d5c0bc1cb353281f4f6f243344d99e32e0ecdf81a9328e822c51f'
+sha256sums=('f0b46aff9b74778edd0cac2f272598255f39dcbf6e8c96caed509182e72f774f'
             'SKIP'
-            '2fe0ed97644411fcb5d92badcc2fb3d2a6f9995179d0133262185be6f3bd4f6e'
-            'ca1e39b0fcb59a850f82561bb11ada59de3fa46fbdf993a2966f3f9247fc5491'
+            'f10966683ab5b1e3706cbd24c8c0fcea2207dda1c277f54b7f40698e4397fdec'
+            'e112edba1489a877cb9a209af13d4c04d12f9f42f06db883d235172c423ceaf5'
             'd5bb4aabbd556f8a3452198ac42cad6ecfae020b124bcfea0aa7344de2aec3b5'
             'bb157f841770f8fea7ba16388b23ab8d544c1bd618e4324f1b40929f72507f21'
             'f295a668dbfbdd80ccb8f8b7056709aec61cd36f1824b981f5862664dede736a'
