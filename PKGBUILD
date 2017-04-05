@@ -7,7 +7,7 @@ _kernelname=-bede
 pkgbase="linux$_kernelname"
 pkgname=("linux$_kernelname" "linux$_kernelname-headers")
 _basekernel=4.11
-_patchver=rc4
+_patchver=rc5
 if [[ "$_patchver" == rc* ]]; then
     # rc kernel
     _baseurl='https://www.kernel.org/pub/linux/kernel/v4.x/testing'
@@ -71,18 +71,18 @@ if [[ ${#_extrapatches[@]} -ne 0 ]]; then
     )
 fi
 
-sha256sums=('f0b46aff9b74778edd0cac2f272598255f39dcbf6e8c96caed509182e72f774f'
+sha512sums=('90a36f5f46f7c9a0dcddd23296ff786e30728255b2ad8a5e2b41839ea2f19d88f9edead8b37b6d4c369d13faf167d3f78fd8d0b97808e563240afc6b0799d430'
             'SKIP'
-            'f10966683ab5b1e3706cbd24c8c0fcea2207dda1c277f54b7f40698e4397fdec'
-            'e112edba1489a877cb9a209af13d4c04d12f9f42f06db883d235172c423ceaf5'
-            'd5bb4aabbd556f8a3452198ac42cad6ecfae020b124bcfea0aa7344de2aec3b5'
-            'bb157f841770f8fea7ba16388b23ab8d544c1bd618e4324f1b40929f72507f21'
-            'f295a668dbfbdd80ccb8f8b7056709aec61cd36f1824b981f5862664dede736a'
-            '34cb483d26fa10d756fcc3468c13faa6f6a1ac4ac8112f3a4ec23c072b1e62d0'
-            '9f44e4221ec42d15eae51b95d7237e69d8d140e43b9b9c4c00e4eb67d1976576'
-            'bb8af32880059e681396a250d8e78f600f248da8ad4f0e76d7923badb5ee8b42'
-            '09189eb269a9fd16898cf90a477df23306236fb897791e8d04e5a75d5007bbff'
-            'fd195000a47ffadfcdf108d3aec5b7472ca2ed9e72f6271cd7b8f380132d7a20')
+            'f680df1b49b4a3bd1c7f6cbec01fd7a2dcd18b4397f8f2d1bfe91756674180d48ffb4758975b25c15878f0717e4ffe98264b6d7f8e7154879b70bd3e50c78b5d'
+            '761f27f92a857e19e1479b090a7d28cbb93d9597bdf077ccbf6eea335d2f17603763aa55664b627047f894aa40892f20bc9dd5cce7122cd060e313789748596d'
+            '501627d920b5482b99045b17436110b90f7167d0ed33fe3b4c78753cb7f97e7f976d44e2dae1383eae79963055ef74b704446e147df808cdcb9b634fd406e757'
+            'f54d4186ed8e1de75185157007097b68f2e58982898f69e7d24fce253018819e2bbc80542f70434f6f81a7766c9c6df7431d859f44b2f53e7e801ac06a1bd3e5'
+            'cf65a3f068422827dd3a70abbfe11ddbcc2b1f2d0fb66d7163446ce8e1a46546c89c9c0fbb32a889d767c7b774d6eb0a23840b1ac75049335ec4ec7544453ffd'
+            '1a57af338f73100c5f93f4bb92a57295fd53fb6c989096a6b96f242d31cf6b837ccb9b339a30b9c1870c8c4adb5d98ed314683a9b92f4d8d1a28e2d66b77898e'
+            'cc249aa48d362a570ec7e16fa9760552fd5fcc3615a29c154b2ee97e51c3c1c1c7449efd031bca59a7b65c473a2afaff075a043dbcb0fbf4a600c83cc9cb8f83'
+            '7ec816bfb2e56016eb79614d1619a4921f46a55940b1a4e44d9490375bb63c15c6b61d6275354378d4edc1c88f93afbc08d193c269bcc57a350f9da095e91e10'
+            '5bf7e9487d3b31c0207a797b7abfd89794249f1dd16689423203722b201a7d1e40735ed957596ffb10b1dacb87d16b99d4560ff87aed7b24322c257c979d5acc'
+            'f27b52dbf081cb6402b651b02744c99d340eac886cc3deff95ad426246976f37c8c0acae5b5dc80c8b0a642d66882d3dddc841810ce08ae1519a3d0e8c8ce423')
 
 prepare() {
     cd "$srcdir/$_linuxname"
@@ -130,6 +130,9 @@ prepare() {
     # hack to prevent output kernel from being marked as dirty or git
     msg2 "apply hack to prevent kernel tree being marked dirty"
     echo "" > "$srcdir/$_linuxname/.scmversion"
+
+    # tmp bc fail workaround
+    sed -e 's/$(CONFIG_HZ)/"&;"/g' -i Kbuild
 }
 
 build() {
