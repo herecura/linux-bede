@@ -6,8 +6,8 @@
 _kernelname=-bede
 pkgbase="linux$_kernelname"
 pkgname=("linux$_kernelname" "linux$_kernelname-headers")
-_basekernel=4.10
-_patchver=15
+_basekernel=4.11
+_patchver=0
 if [[ "$_patchver" == rc* ]]; then
     # rc kernel
     _baseurl='https://www.kernel.org/pub/linux/kernel/v4.x/testing'
@@ -19,7 +19,7 @@ else
     pkgver=$_basekernel
     _linuxname="linux-$_basekernel"
 fi
-pkgrel=1
+pkgrel=5
 arch=('i686' 'x86_64')
 license=('GPL2')
 makedepends=('bc' 'kmod')
@@ -64,6 +64,7 @@ _extrapatches=(
     'apple-gmux.patch'
     'poweroff-quirk-workaround.patch'
     'macbook-suspend.patch'
+    'https://git.kernel.org/pub/scm/linux/kernel/git/stable/stable-queue.git/plain/queue-4.11/refcount-change-export_symbol-markings.patch'
 )
 if [[ ${#_extrapatches[@]} -ne 0 ]]; then
     source=( "${source[@]}"
@@ -71,20 +72,19 @@ if [[ ${#_extrapatches[@]} -ne 0 ]]; then
     )
 fi
 
-sha256sums=('3c95d9f049bd085e5c346d2c77f063b8425f191460fcd3ae9fe7e94e0477dc4b'
+sha512sums=('6610eed97ffb7207c71771198c36179b8244ace7222bebb109507720e26c5f17d918079a56d5febdd8605844d67fb2df0ebe910fa2f2f53690daf6e2a8ad09c3'
             'SKIP'
-            '33f1cac32efd6dbe20ba35e9541e0586d9f0c782b2b6e8b42c217e804587de01'
-            '5847eabfda374e23c80b4457adb4e270f5d21184f182e2f798bea34cc56ef925'
-            'd5bb4aabbd556f8a3452198ac42cad6ecfae020b124bcfea0aa7344de2aec3b5'
-            'bb157f841770f8fea7ba16388b23ab8d544c1bd618e4324f1b40929f72507f21'
-            'f295a668dbfbdd80ccb8f8b7056709aec61cd36f1824b981f5862664dede736a'
-            '34cb483d26fa10d756fcc3468c13faa6f6a1ac4ac8112f3a4ec23c072b1e62d0'
-            '9f44e4221ec42d15eae51b95d7237e69d8d140e43b9b9c4c00e4eb67d1976576'
-            'a15ed4c0b74e72f8b09cb4a57899707c68b7834136404d96f4e05add84a05e46'
-            'SKIP'
-            'bb8af32880059e681396a250d8e78f600f248da8ad4f0e76d7923badb5ee8b42'
-            '09189eb269a9fd16898cf90a477df23306236fb897791e8d04e5a75d5007bbff'
-            'fd195000a47ffadfcdf108d3aec5b7472ca2ed9e72f6271cd7b8f380132d7a20')
+            '1a5cc5577b1ab3147d11074882b9776e45a91901bb746501c6b33a00b5322ec1df0d4162fd3309f2fbc0a255e11432ff6cefe14e5e5b745d04839c60a1215b9f'
+            '4b86038152c979d2cb6c23381d43e0da9fde57e027e2a240debd1c3da24de82f633f5fd85bdcb18b5285b06b25a85a0bb4df4b4f0ad19c31b470a1826e9837cb'
+            '501627d920b5482b99045b17436110b90f7167d0ed33fe3b4c78753cb7f97e7f976d44e2dae1383eae79963055ef74b704446e147df808cdcb9b634fd406e757'
+            'f54d4186ed8e1de75185157007097b68f2e58982898f69e7d24fce253018819e2bbc80542f70434f6f81a7766c9c6df7431d859f44b2f53e7e801ac06a1bd3e5'
+            'cf65a3f068422827dd3a70abbfe11ddbcc2b1f2d0fb66d7163446ce8e1a46546c89c9c0fbb32a889d767c7b774d6eb0a23840b1ac75049335ec4ec7544453ffd'
+            '1a57af338f73100c5f93f4bb92a57295fd53fb6c989096a6b96f242d31cf6b837ccb9b339a30b9c1870c8c4adb5d98ed314683a9b92f4d8d1a28e2d66b77898e'
+            'cc249aa48d362a570ec7e16fa9760552fd5fcc3615a29c154b2ee97e51c3c1c1c7449efd031bca59a7b65c473a2afaff075a043dbcb0fbf4a600c83cc9cb8f83'
+            '7ec816bfb2e56016eb79614d1619a4921f46a55940b1a4e44d9490375bb63c15c6b61d6275354378d4edc1c88f93afbc08d193c269bcc57a350f9da095e91e10'
+            '5bf7e9487d3b31c0207a797b7abfd89794249f1dd16689423203722b201a7d1e40735ed957596ffb10b1dacb87d16b99d4560ff87aed7b24322c257c979d5acc'
+            'f27b52dbf081cb6402b651b02744c99d340eac886cc3deff95ad426246976f37c8c0acae5b5dc80c8b0a642d66882d3dddc841810ce08ae1519a3d0e8c8ce423'
+            '062d6f7d0a25d1024d4dab3c63febf2b2cfd5561205156e3628922b30aa5fd136d339f00150e144432476ad99b2a17b904d9b3a8a291102a878402e649588bce')
 
 prepare() {
     cd "$srcdir/$_linuxname"
@@ -132,6 +132,9 @@ prepare() {
     # hack to prevent output kernel from being marked as dirty or git
     msg2 "apply hack to prevent kernel tree being marked dirty"
     echo "" > "$srcdir/$_linuxname/.scmversion"
+
+    # tmp bc fail workaround
+    sed -e 's/$(CONFIG_HZ)/"&;"/g' -i Kbuild
 }
 
 build() {

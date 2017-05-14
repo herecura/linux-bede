@@ -5,3 +5,7 @@ if [ "" != "$update__patchver" ]; then
 else
     update__patchver=0
 fi
+if [[ $update__patchver -eq 0 ]] && [[ $update_pkgver == *rc* ]]; then
+    update__patchver=${update_pkgver##*-}
+    update_pkgver=${update_pkgver//-}
+fi
