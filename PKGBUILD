@@ -19,7 +19,7 @@ else
     pkgver=$_basekernel
     _linuxname="linux-$_basekernel"
 fi
-pkgrel=1
+pkgrel=2
 arch=('i686' 'x86_64')
 license=('GPL2')
 makedepends=('bc' 'kmod')
@@ -64,6 +64,7 @@ _extrapatches=(
     'apple-gmux.patch'
     'poweroff-quirk-workaround.patch'
     'macbook-suspend.patch'
+    'https://git.kernel.org/pub/scm/linux/kernel/git/stable/stable-queue.git/plain/queue-4.11/mm-larger-stack-guard-gap-between-vmas.patch'
 )
 if [[ ${#_extrapatches[@]} -ne 0 ]]; then
     source=( "${source[@]}"
@@ -84,7 +85,8 @@ sha512sums=('6610eed97ffb7207c71771198c36179b8244ace7222bebb109507720e26c5f17d91
             'SKIP'
             '7ec816bfb2e56016eb79614d1619a4921f46a55940b1a4e44d9490375bb63c15c6b61d6275354378d4edc1c88f93afbc08d193c269bcc57a350f9da095e91e10'
             '5bf7e9487d3b31c0207a797b7abfd89794249f1dd16689423203722b201a7d1e40735ed957596ffb10b1dacb87d16b99d4560ff87aed7b24322c257c979d5acc'
-            'f27b52dbf081cb6402b651b02744c99d340eac886cc3deff95ad426246976f37c8c0acae5b5dc80c8b0a642d66882d3dddc841810ce08ae1519a3d0e8c8ce423')
+            'f27b52dbf081cb6402b651b02744c99d340eac886cc3deff95ad426246976f37c8c0acae5b5dc80c8b0a642d66882d3dddc841810ce08ae1519a3d0e8c8ce423'
+            '3c40f5d22ca1061802fb17607f752a99caa8702e03f9adc1ef8e3d6a8e932170c4e14d65a7c8ec83b4de0f725bf9bf2becc08f259effb00e47e30a4648aa1213')
 
 prepare() {
     cd "$srcdir/$_linuxname"
