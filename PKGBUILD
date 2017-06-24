@@ -7,7 +7,7 @@ _kernelname=-bede
 pkgbase="linux$_kernelname"
 pkgname=("linux$_kernelname" "linux$_kernelname-headers")
 _basekernel=4.11
-_patchver=6
+_patchver=7
 if [[ "$_patchver" == rc* ]]; then
     # rc kernel
     _baseurl='https://www.kernel.org/pub/linux/kernel/v4.x/testing'
@@ -19,7 +19,7 @@ else
     pkgver=$_basekernel
     _linuxname="linux-$_basekernel"
 fi
-pkgrel=3
+pkgrel=1
 arch=('i686' 'x86_64')
 license=('GPL2')
 makedepends=('bc' 'kmod')
@@ -64,8 +64,6 @@ _extrapatches=(
     'apple-gmux.patch'
     'poweroff-quirk-workaround.patch'
     'macbook-suspend.patch'
-    'https://git.kernel.org/pub/scm/linux/kernel/git/stable/stable-queue.git/plain/queue-4.11/mm-larger-stack-guard-gap-between-vmas.patch'
-    'https://git.kernel.org/pub/scm/linux/kernel/git/stable/stable-queue.git/plain/queue-4.11/mm-fix-new-crash-in-unmapped_area_topdown.patch'
 )
 if [[ ${#_extrapatches[@]} -ne 0 ]]; then
     source=( "${source[@]}"
@@ -82,13 +80,11 @@ sha512sums=('6610eed97ffb7207c71771198c36179b8244ace7222bebb109507720e26c5f17d91
             'cf65a3f068422827dd3a70abbfe11ddbcc2b1f2d0fb66d7163446ce8e1a46546c89c9c0fbb32a889d767c7b774d6eb0a23840b1ac75049335ec4ec7544453ffd'
             '1a57af338f73100c5f93f4bb92a57295fd53fb6c989096a6b96f242d31cf6b837ccb9b339a30b9c1870c8c4adb5d98ed314683a9b92f4d8d1a28e2d66b77898e'
             'cc249aa48d362a570ec7e16fa9760552fd5fcc3615a29c154b2ee97e51c3c1c1c7449efd031bca59a7b65c473a2afaff075a043dbcb0fbf4a600c83cc9cb8f83'
-            'e0e2de7d721575cd2770fa4fa61a1ecdfd54bb4239725363a90ab3b670aab44531a7c0f198ff769080643e86ce7e4806d26bb436a43437747e123715061b278b'
+            '8f02b3ae83cf499f59912207821d67a1e5a0cdb7d53644a2685ac8187fa43e39b0af4c64de2d299c389c4a85c011513a78f33297d8521eb99ef58b287bf9962a'
             'SKIP'
             '7ec816bfb2e56016eb79614d1619a4921f46a55940b1a4e44d9490375bb63c15c6b61d6275354378d4edc1c88f93afbc08d193c269bcc57a350f9da095e91e10'
             '5bf7e9487d3b31c0207a797b7abfd89794249f1dd16689423203722b201a7d1e40735ed957596ffb10b1dacb87d16b99d4560ff87aed7b24322c257c979d5acc'
-            'f27b52dbf081cb6402b651b02744c99d340eac886cc3deff95ad426246976f37c8c0acae5b5dc80c8b0a642d66882d3dddc841810ce08ae1519a3d0e8c8ce423'
-            '3c40f5d22ca1061802fb17607f752a99caa8702e03f9adc1ef8e3d6a8e932170c4e14d65a7c8ec83b4de0f725bf9bf2becc08f259effb00e47e30a4648aa1213'
-            '8618042161d900507b28a49c0517a2b62338b99695f881c764e3d74c455faea45bf031071a7e58278fc9645d736628e73c40a3932ace68e78b1fda61de34a79e')
+            'f27b52dbf081cb6402b651b02744c99d340eac886cc3deff95ad426246976f37c8c0acae5b5dc80c8b0a642d66882d3dddc841810ce08ae1519a3d0e8c8ce423')
 
 prepare() {
     cd "$srcdir/$_linuxname"
