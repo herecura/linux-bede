@@ -6,8 +6,8 @@
 _kernelname=-bede
 pkgbase="linux$_kernelname"
 pkgname=("linux$_kernelname" "linux$_kernelname-headers")
-_basekernel=4.11
-_patchver=10
+_basekernel=4.12
+_patchver=1
 if [[ "$_patchver" == rc* ]]; then
     # rc kernel
     _baseurl='https://www.kernel.org/pub/linux/kernel/v4.x/testing'
@@ -19,7 +19,7 @@ else
     pkgver=$_basekernel
     _linuxname="linux-$_basekernel"
 fi
-pkgrel=2
+pkgrel=1
 arch=('i686' 'x86_64')
 license=('GPL2')
 makedepends=('bc' 'kmod')
@@ -71,16 +71,16 @@ if [[ ${#_extrapatches[@]} -ne 0 ]]; then
     )
 fi
 
-sha512sums=('6610eed97ffb7207c71771198c36179b8244ace7222bebb109507720e26c5f17d918079a56d5febdd8605844d67fb2df0ebe910fa2f2f53690daf6e2a8ad09c3'
+sha512sums=('8e81b41b253e63233e92948941f44c6482acb52aa3a3fd172f03a38a86f2c35b2ad4fd407acd1bc3964673eba344fe104d3a03e3ff4bf9cd1f22bd44263bd728'
             'SKIP'
-            '1a5cc5577b1ab3147d11074882b9776e45a91901bb746501c6b33a00b5322ec1df0d4162fd3309f2fbc0a255e11432ff6cefe14e5e5b745d04839c60a1215b9f'
-            '4b86038152c979d2cb6c23381d43e0da9fde57e027e2a240debd1c3da24de82f633f5fd85bdcb18b5285b06b25a85a0bb4df4b4f0ad19c31b470a1826e9837cb'
+            'e14fa20bf28c08cc66161bdcd17fe43177437a387296ef5eb6b6d6c327b446a18becbed0b8fc4ce35dcbbf445a44d9eaeebb8749592032485d8a2b9a583406be'
+            'eacc10d5aef0a15f4fe8dfb9501c709eece03dd953cc1120f05d6fe9ddbc5b84e1795ae986030624305140f323c192dddbd1ce4e13319847ddfae68dc94f1370'
             '501627d920b5482b99045b17436110b90f7167d0ed33fe3b4c78753cb7f97e7f976d44e2dae1383eae79963055ef74b704446e147df808cdcb9b634fd406e757'
             'f54d4186ed8e1de75185157007097b68f2e58982898f69e7d24fce253018819e2bbc80542f70434f6f81a7766c9c6df7431d859f44b2f53e7e801ac06a1bd3e5'
             'cf65a3f068422827dd3a70abbfe11ddbcc2b1f2d0fb66d7163446ce8e1a46546c89c9c0fbb32a889d767c7b774d6eb0a23840b1ac75049335ec4ec7544453ffd'
             '1a57af338f73100c5f93f4bb92a57295fd53fb6c989096a6b96f242d31cf6b837ccb9b339a30b9c1870c8c4adb5d98ed314683a9b92f4d8d1a28e2d66b77898e'
             'cc249aa48d362a570ec7e16fa9760552fd5fcc3615a29c154b2ee97e51c3c1c1c7449efd031bca59a7b65c473a2afaff075a043dbcb0fbf4a600c83cc9cb8f83'
-            'b1f1913650bd98888b88dd78cdc8e81f14414a98717f103a0aa631fe7b9e630e63e59b26b3047f6530c43ecc82ee7c2db17c70f24898ae892a473af5be222dc2'
+            '41a3a6943659c05ec58e953215e5125027817be6867ee88b8faf0ac9c89f32876d5df865347be78bfb3fd9b0e4bcd07b84b6fcc6d7a60720280ce502f2d3af93'
             'SKIP'
             '7ec816bfb2e56016eb79614d1619a4921f46a55940b1a4e44d9490375bb63c15c6b61d6275354378d4edc1c88f93afbc08d193c269bcc57a350f9da095e91e10'
             '5bf7e9487d3b31c0207a797b7abfd89794249f1dd16689423203722b201a7d1e40735ed957596ffb10b1dacb87d16b99d4560ff87aed7b24322c257c979d5acc'
@@ -132,9 +132,6 @@ prepare() {
     # hack to prevent output kernel from being marked as dirty or git
     msg2 "apply hack to prevent kernel tree being marked dirty"
     echo "" > "$srcdir/$_linuxname/.scmversion"
-
-    # tmp bc fail workaround
-    sed -e 's/$(CONFIG_HZ)/"&;"/g' -i Kbuild
 }
 
 build() {
