@@ -7,7 +7,7 @@ _kernelname=-bede
 pkgbase="linux$_kernelname"
 pkgname=("linux$_kernelname" "linux$_kernelname-headers")
 _basekernel=4.12
-_patchver=9
+_patchver=10
 if [[ "$_patchver" == rc* ]]; then
     # rc kernel
     _baseurl='https://www.kernel.org/pub/linux/kernel/v4.x/testing'
@@ -19,7 +19,7 @@ else
     pkgver=$_basekernel
     _linuxname="linux-$_basekernel"
 fi
-pkgrel=3
+pkgrel=1
 arch=('i686' 'x86_64')
 license=('GPL2')
 makedepends=('bc' 'kmod')
@@ -80,7 +80,7 @@ sha512sums=('8e81b41b253e63233e92948941f44c6482acb52aa3a3fd172f03a38a86f2c35b2ad
             'cf65a3f068422827dd3a70abbfe11ddbcc2b1f2d0fb66d7163446ce8e1a46546c89c9c0fbb32a889d767c7b774d6eb0a23840b1ac75049335ec4ec7544453ffd'
             '1a57af338f73100c5f93f4bb92a57295fd53fb6c989096a6b96f242d31cf6b837ccb9b339a30b9c1870c8c4adb5d98ed314683a9b92f4d8d1a28e2d66b77898e'
             'cc249aa48d362a570ec7e16fa9760552fd5fcc3615a29c154b2ee97e51c3c1c1c7449efd031bca59a7b65c473a2afaff075a043dbcb0fbf4a600c83cc9cb8f83'
-            '8f4f9e270e8d00008b505be53aa0132aefbde21ae797e9daede19d6c81b26f255773b8e91396b75bbc78153d641a2479afbc22a7dc0d95b9c24534327fb95e38'
+            '9463d9335c551376c7cdf45f4aa8f599d7783dbd4de62f87853e1c676f0a7e1a99b25909eac994676786e850137c90897a11c61d59e25674982132b888cfb1f1'
             'SKIP'
             '7ec816bfb2e56016eb79614d1619a4921f46a55940b1a4e44d9490375bb63c15c6b61d6275354378d4edc1c88f93afbc08d193c269bcc57a350f9da095e91e10'
             '5bf7e9487d3b31c0207a797b7abfd89794249f1dd16689423203722b201a7d1e40735ed957596ffb10b1dacb87d16b99d4560ff87aed7b24322c257c979d5acc'
