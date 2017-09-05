@@ -6,8 +6,8 @@
 _kernelname=-bede
 pkgbase="linux$_kernelname"
 pkgname=("linux$_kernelname" "linux$_kernelname-headers")
-_basekernel=4.12
-_patchver=10
+_basekernel=4.13
+_patchver=0
 if [[ "$_patchver" == rc* ]]; then
     # rc kernel
     _baseurl='https://www.kernel.org/pub/linux/kernel/v4.x/testing'
@@ -19,8 +19,8 @@ else
     pkgver=$_basekernel
     _linuxname="linux-$_basekernel"
 fi
-pkgrel=2
-arch=('i686' 'x86_64')
+pkgrel=1
+arch=('x86_64')
 license=('GPL2')
 makedepends=('bc' 'kmod')
 url="http://www.kernel.org"
@@ -35,7 +35,6 @@ source=(
     "$_baseurl/$_linuxname.tar.xz"
     "$_baseurl/$_linuxname.tar.sign"
     # the main kernel config files
-    "config-desktop.i686"
     "config-desktop.x86_64"
     # standard config files for mkinitcpio ramdisk
     "linux$_kernelname.preset"
@@ -61,9 +60,6 @@ fi
 
 ## extra patches
 _extrapatches=(
-    'apple-gmux.patch'
-    'poweroff-quirk-workaround.patch'
-    'macbook-suspend.patch'
 )
 if [[ ${#_extrapatches[@]} -ne 0 ]]; then
     source=( "${source[@]}"
@@ -71,20 +67,14 @@ if [[ ${#_extrapatches[@]} -ne 0 ]]; then
     )
 fi
 
-sha512sums=('8e81b41b253e63233e92948941f44c6482acb52aa3a3fd172f03a38a86f2c35b2ad4fd407acd1bc3964673eba344fe104d3a03e3ff4bf9cd1f22bd44263bd728'
+sha512sums=('a557c2f0303ae618910b7106ff63d9978afddf470f03cb72aa748213e099a0ecd5f3119aea6cbd7b61df30ca6ef3ec57044d524b7babbaabddf8b08b8bafa7d2'
             'SKIP'
-            'e516ee555eadc48b24d3507e68db21146db2da24a94c7ec2cca4fc6b386392683502d13e4d4774dd064b1db5783ab45ef307b5938a3a616615584e072aa08c9b'
-            '231f5a78f3a4c05c7f6bd95e16ab4f3b8df2ca7a135edd0457c29507be7d961709d7ed37dba353c96a03f1d44aa8d5f0ced46916d1f72c9068bc440727a071f1'
+            '874a699469cc2504d1514cc582c5d396d670cbd1715258a243bf6cb8e425e9f854145be0581b60b0720fb270b4cce3ba091e5e8c9f23ae61fe2dd05dc756f034'
             '501627d920b5482b99045b17436110b90f7167d0ed33fe3b4c78753cb7f97e7f976d44e2dae1383eae79963055ef74b704446e147df808cdcb9b634fd406e757'
             'f54d4186ed8e1de75185157007097b68f2e58982898f69e7d24fce253018819e2bbc80542f70434f6f81a7766c9c6df7431d859f44b2f53e7e801ac06a1bd3e5'
             'cf65a3f068422827dd3a70abbfe11ddbcc2b1f2d0fb66d7163446ce8e1a46546c89c9c0fbb32a889d767c7b774d6eb0a23840b1ac75049335ec4ec7544453ffd'
             '1a57af338f73100c5f93f4bb92a57295fd53fb6c989096a6b96f242d31cf6b837ccb9b339a30b9c1870c8c4adb5d98ed314683a9b92f4d8d1a28e2d66b77898e'
-            'cc249aa48d362a570ec7e16fa9760552fd5fcc3615a29c154b2ee97e51c3c1c1c7449efd031bca59a7b65c473a2afaff075a043dbcb0fbf4a600c83cc9cb8f83'
-            '9463d9335c551376c7cdf45f4aa8f599d7783dbd4de62f87853e1c676f0a7e1a99b25909eac994676786e850137c90897a11c61d59e25674982132b888cfb1f1'
-            'SKIP'
-            '7ec816bfb2e56016eb79614d1619a4921f46a55940b1a4e44d9490375bb63c15c6b61d6275354378d4edc1c88f93afbc08d193c269bcc57a350f9da095e91e10'
-            '5bf7e9487d3b31c0207a797b7abfd89794249f1dd16689423203722b201a7d1e40735ed957596ffb10b1dacb87d16b99d4560ff87aed7b24322c257c979d5acc'
-            'f27b52dbf081cb6402b651b02744c99d340eac886cc3deff95ad426246976f37c8c0acae5b5dc80c8b0a642d66882d3dddc841810ce08ae1519a3d0e8c8ce423')
+            'cc249aa48d362a570ec7e16fa9760552fd5fcc3615a29c154b2ee97e51c3c1c1c7449efd031bca59a7b65c473a2afaff075a043dbcb0fbf4a600c83cc9cb8f83')
 
 prepare() {
     cd "$srcdir/$_linuxname"
@@ -109,11 +99,7 @@ prepare() {
 
     # set configuration
     msg2 "copy configuration"
-    if [[ "$CARCH" = "x86_64" ]]; then
-        cat "$srcdir/config-desktop.x86_64" >./.config
-    else
-        cat "$srcdir/config-desktop.i686" >./.config
-    fi
+    cat "$srcdir/config-desktop.x86_64" >./.config
     if [[ "$_kernelname" != "" ]]; then
         sed -i "s|CONFIG_LOCALVERSION=.*|CONFIG_LOCALVERSION=\"\U$_kernelname\"|g" ./.config
     fi
@@ -257,10 +243,6 @@ package_linux-bede-headers() {
     find $(find arch/$KARCH -name include -type d -print) -type f \
         | bsdcpio -pdm "$pkgdir/usr/src/linux-$_kernver"
     install -Dm644 Module.symvers "$pkgdir/usr/src/linux-$_kernver"
-
-    # add docbook makefile
-    install -D -m644 Documentation/DocBook/Makefile \
-        "$pkgdir/usr/src/linux-$_kernver/Documentation/DocBook/Makefile"
 
     # strip scripts directory
     find "$pkgdir/usr/src/linux-$_kernver/scripts" -type f -perm -u+w 2>/dev/null | while read binary ; do
