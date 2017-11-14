@@ -19,7 +19,7 @@ else
     pkgver=$_basekernel
     _linuxname="linux-$_basekernel"
 fi
-pkgrel=1
+pkgrel=3
 arch=('x86_64')
 license=('GPL2')
 makedepends=('bc' 'kmod')
