@@ -19,7 +19,7 @@ else
     pkgver=$_basekernel
     _linuxname="linux-$_basekernel"
 fi
-pkgrel=2
+pkgrel=3
 arch=('x86_64')
 license=('GPL2')
 makedepends=('bc' 'kmod')
@@ -69,7 +69,7 @@ fi
 
 sha512sums=('77e43a02d766c3d73b7e25c4aafb2e931d6b16e870510c22cef0cdb05c3acb7952b8908ebad12b10ef982c6efbe286364b1544586e715cf38390e483927904d8'
             'SKIP'
-            'bb8264830a9b12ec99e7069c72b982f91b6fcc21baa4b30027c92442590af1d237da8a2fd8db2aa9db8abbbf8df7f2769413bbd1a10f868f3ace818886feb064'
+            'dbc23db58e7b31d83963029dd3894bbdee2bb635a933e982f7802571abc78001dade65755256bc7318a32ad8349d1521a9dc9092285785a8a5b2602c0248cc59'
             '501627d920b5482b99045b17436110b90f7167d0ed33fe3b4c78753cb7f97e7f976d44e2dae1383eae79963055ef74b704446e147df808cdcb9b634fd406e757'
             'f54d4186ed8e1de75185157007097b68f2e58982898f69e7d24fce253018819e2bbc80542f70434f6f81a7766c9c6df7431d859f44b2f53e7e801ac06a1bd3e5'
             'cf65a3f068422827dd3a70abbfe11ddbcc2b1f2d0fb66d7163446ce8e1a46546c89c9c0fbb32a889d767c7b774d6eb0a23840b1ac75049335ec4ec7544453ffd'
@@ -245,6 +245,10 @@ package_linux-bede-headers() {
     find $(find arch/$KARCH -name include -type d -print) -type f \
         | bsdcpio -pdm "$pkgdir/usr/src/linux-$_kernver"
     install -Dm644 Module.symvers "$pkgdir/usr/src/linux-$_kernver"
+
+    # add objtool for external module building and enabled VALIDATION_STACK option
+    install -Dm755 tools/objtool/objtool \
+        "$pkgdir/usr/src/linux-$_kernver/tools/objtool/objtool"
 
     # strip scripts directory
     find "$pkgdir/usr/src/linux-$_kernver/scripts" -type f -perm -u+w 2>/dev/null | while read binary ; do
