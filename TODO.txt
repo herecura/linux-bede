@@ -1,2 +1,0 @@
-Re-enable
-- Enable 5-level page tables support // CONFIG_X86_5LEVEL (when fallback is available)
