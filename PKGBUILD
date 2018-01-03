@@ -19,7 +19,7 @@ else
     pkgver=$_basekernel
     _linuxname="linux-$_basekernel"
 fi
-pkgrel=1
+pkgrel=2
 arch=('x86_64')
 license=('GPL2')
 makedepends=('bc' 'kmod')
@@ -60,6 +60,7 @@ fi
 
 ## extra patches
 _extrapatches=(
+    'x86-cpu-x86-pti-Do-not-enable-PTI-on-AMD-processors.patch'
 )
 if [[ ${#_extrapatches[@]} -ne 0 ]]; then
     source=( "${source[@]}"
@@ -76,7 +77,8 @@ sha512sums=('77e43a02d766c3d73b7e25c4aafb2e931d6b16e870510c22cef0cdb05c3acb7952b
             '1a57af338f73100c5f93f4bb92a57295fd53fb6c989096a6b96f242d31cf6b837ccb9b339a30b9c1870c8c4adb5d98ed314683a9b92f4d8d1a28e2d66b77898e'
             'cc249aa48d362a570ec7e16fa9760552fd5fcc3615a29c154b2ee97e51c3c1c1c7449efd031bca59a7b65c473a2afaff075a043dbcb0fbf4a600c83cc9cb8f83'
             'dbf5488f0ba4e18b253da02c5cc862096a3253689986fbf5cd89b835c94c2057f4196d8d278973254fdf6dd07629784bf1dc3bdc7d1ac3bb0682c6f9ad9d21ad'
-            'SKIP')
+            'SKIP'
+            'dcef87087541453549771816401bc4130ad69672d5b771fefb751534b111bbd77286bf46df6211762c9fa27b8b0fe2c055e4572a195b7f4355afa16a23ed4398')
 
 prepare() {
     cd "$srcdir/$_linuxname"
