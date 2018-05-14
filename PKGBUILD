@@ -6,18 +6,26 @@
 _kernelname=-bede
 pkgbase="linux$_kernelname"
 pkgname=("linux$_kernelname" "linux$_kernelname-headers")
-_basekernel=4.16
-_patchver=8
+_basekernel=4.17
+_patchver=rc5
 if [[ "$_patchver" == rc* ]]; then
     # rc kernel
     _baseurl='https://www.kernel.org/pub/linux/kernel/v4.x/testing'
+    _baseurl='https://git.kernel.org/torvalds/t'
     pkgver=${_basekernel}$_patchver
     _linuxname="linux-${_basekernel}-$_patchver"
+    source=(
+        "$_baseurl/$_linuxname.tar.xz"
+    )
 else
     # $_patchver is no RC build normal
     _baseurl='https://www.kernel.org/pub/linux/kernel/v4.x'
     pkgver=$_basekernel
     _linuxname="linux-$_basekernel"
+    source=(
+        "$_baseurl/$_linuxname.tar.xz"
+        "$_baseurl/$_linuxname.tar.sign"
+    )
 fi
 pkgrel=1
 arch=('x86_64')
@@ -31,9 +39,7 @@ validpgpkeys=(
     '647F28654894E3BD457199BE38DBBDC86092693E'
 )
 
-source=(
-    "$_baseurl/$_linuxname.tar.xz"
-    "$_baseurl/$_linuxname.tar.sign"
+source+=(
     # the main kernel config files
     "config-desktop.x86_64"
     # standard config files for mkinitcpio ramdisk
@@ -60,6 +66,9 @@ fi
 
 ## extra patches
 _extrapatches=(
+    '0001-objtool_Fix_noreturn_detection_for_recursive_sibling_calls.patch'
+    '0002-objtool_support_GCC8_cold_subfunctions.patch'
+    '0003-objtool_support_GCC8_switch_tables.patch'
 )
 if [[ ${#_extrapatches[@]} -ne 0 ]]; then
     source=( "${source[@]}"
@@ -67,16 +76,16 @@ if [[ ${#_extrapatches[@]} -ne 0 ]]; then
     )
 fi
 
-sha512sums=('ab47849314b177d0eec9dbf261f33972b0d89fb92fb0650130ffa7abc2f36c0fab2d06317dc1683c51a472a9a631573a9b1e7258d6281a2ee189897827f14662'
-            'SKIP'
-            '679ade768d3a0adcc50599b833b27c98f266d89284fd61ba8ed7efaa6031217c2c810152c14ed76980d1c3541a4bed988a1dcfe0705d93949a826faa0c2b4c4d'
+sha512sums=('02542384b7f8983bdc404e0029d8eb3f2cb800cd4bae1b2bdb05faf1b63fb2067c8fcfb716cec5990325457cd3447413bcb73005ff9ce390ea065574b88acc19'
+            'c4e8dccc7eb19ae5567e279aa107793fc9b8519f2b28b28ad67341589c2b2babbceae67d63557c0ecb1601d3a5bd9575cb540172a81af2e20838d32445b0bfbb'
             '501627d920b5482b99045b17436110b90f7167d0ed33fe3b4c78753cb7f97e7f976d44e2dae1383eae79963055ef74b704446e147df808cdcb9b634fd406e757'
             'f54d4186ed8e1de75185157007097b68f2e58982898f69e7d24fce253018819e2bbc80542f70434f6f81a7766c9c6df7431d859f44b2f53e7e801ac06a1bd3e5'
             'cf65a3f068422827dd3a70abbfe11ddbcc2b1f2d0fb66d7163446ce8e1a46546c89c9c0fbb32a889d767c7b774d6eb0a23840b1ac75049335ec4ec7544453ffd'
             '1a57af338f73100c5f93f4bb92a57295fd53fb6c989096a6b96f242d31cf6b837ccb9b339a30b9c1870c8c4adb5d98ed314683a9b92f4d8d1a28e2d66b77898e'
             '70675b6ca7dab31eb3a9b5461770260751fc8d8d08bbc933decbbd9aa33fea9de4e12bdfd47f121856ed4c7f1282f802baf8ac0196ab8c5865e557aa795b415e'
-            '8bd521f5a14280c6893f6d85f46d12f97ba71abf3e149f1900aa5e1efa3a03a97df674c4b2b46553b8e9df55164894b6fcb510dbba8cab8ce47ee4b0186e27d0'
-            'SKIP')
+            '5d2ac655af70769167a7627d40ba328148d191551b650f555db19f91f9a962769e5946f655a390947fcee9262410340380cb95786c7325871ed4fdf4cf3e4902'
+            'f09a78a325b8f9f2edafbfea3101a2b4aa22922485c9977583ad5ee044fc821b09c11dda4546cbb9e4c4cf3f0d0d10ca8bf5dc9f1814e1e2c11d8b6caea7c6eb'
+            '2e6bb4b717b5794cbb92711eb3c2b4c0fbb0e055f8ecc5f2129987d027976fc7062a1f1629cafd48d7e1e884f284f41da16f3808b9609aa9ded33109b78ece8b')
 
 prepare() {
     cd "$srcdir/$_linuxname"
