@@ -7,7 +7,7 @@ _kernelname=-bede
 pkgbase="linux$_kernelname"
 pkgname=("linux$_kernelname" "linux$_kernelname-headers")
 _basekernel=4.16
-_patchver=11
+_patchver=12
 if [[ "$_patchver" == rc* ]]; then
     # rc kernel
     _baseurl='https://www.kernel.org/pub/linux/kernel/v4.x/testing'
@@ -78,7 +78,7 @@ sha512sums=('ab47849314b177d0eec9dbf261f33972b0d89fb92fb0650130ffa7abc2f36c0fab2
             'cf65a3f068422827dd3a70abbfe11ddbcc2b1f2d0fb66d7163446ce8e1a46546c89c9c0fbb32a889d767c7b774d6eb0a23840b1ac75049335ec4ec7544453ffd'
             '1a57af338f73100c5f93f4bb92a57295fd53fb6c989096a6b96f242d31cf6b837ccb9b339a30b9c1870c8c4adb5d98ed314683a9b92f4d8d1a28e2d66b77898e'
             '70675b6ca7dab31eb3a9b5461770260751fc8d8d08bbc933decbbd9aa33fea9de4e12bdfd47f121856ed4c7f1282f802baf8ac0196ab8c5865e557aa795b415e'
-            '03c2dbd6f5bac48875a08f6ef3603379fd5736d7b4d1abe1d4271d484ac5b08790c8d28177cec4e45421a303eb539fc79e15a9b67383b249b7d999e47652135c'
+            '7bd2b4fa54b69df5558a4a151936fb1787f2faa0f4e73c03db04ef84ac088f764425faf5d6b5a023d4863e190775dcbb251eba1efc3b10eb133330bb6b210b72'
             'SKIP'
             '5d2ac655af70769167a7627d40ba328148d191551b650f555db19f91f9a962769e5946f655a390947fcee9262410340380cb95786c7325871ed4fdf4cf3e4902'
             'f09a78a325b8f9f2edafbfea3101a2b4aa22922485c9977583ad5ee044fc821b09c11dda4546cbb9e4c4cf3f0d0d10ca8bf5dc9f1814e1e2c11d8b6caea7c6eb'
