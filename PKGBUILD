@@ -7,7 +7,7 @@ _kernelname=-bede
 pkgbase="linux$_kernelname"
 pkgname=("linux$_kernelname" "linux$_kernelname-headers")
 _basekernel=4.16
-_patchver=13
+_patchver=14
 if [[ "$_patchver" == rc* ]]; then
     # rc kernel
     _baseurl='https://www.kernel.org/pub/linux/kernel/v4.x/testing'
@@ -60,9 +60,6 @@ fi
 
 ## extra patches
 _extrapatches=(
-    '0001-objtool_Fix_noreturn_detection_for_recursive_sibling_calls.patch'
-    '0002-objtool_support_GCC8_cold_subfunctions.patch'
-    '0003-objtool_support_GCC8_switch_tables.patch'
 )
 if [[ ${#_extrapatches[@]} -ne 0 ]]; then
     source=( "${source[@]}"
@@ -78,11 +75,8 @@ sha512sums=('ab47849314b177d0eec9dbf261f33972b0d89fb92fb0650130ffa7abc2f36c0fab2
             'cf65a3f068422827dd3a70abbfe11ddbcc2b1f2d0fb66d7163446ce8e1a46546c89c9c0fbb32a889d767c7b774d6eb0a23840b1ac75049335ec4ec7544453ffd'
             '1a57af338f73100c5f93f4bb92a57295fd53fb6c989096a6b96f242d31cf6b837ccb9b339a30b9c1870c8c4adb5d98ed314683a9b92f4d8d1a28e2d66b77898e'
             '70675b6ca7dab31eb3a9b5461770260751fc8d8d08bbc933decbbd9aa33fea9de4e12bdfd47f121856ed4c7f1282f802baf8ac0196ab8c5865e557aa795b415e'
-            'f136eadbaff335b5c9cd45a9265b4ce4409c141372bc7af378c5a6bbb50330bf16d75ef29294f2b876961292c4c2606980e3d169b98e5b413d6c1b13f5eed37e'
-            'SKIP'
-            '5d2ac655af70769167a7627d40ba328148d191551b650f555db19f91f9a962769e5946f655a390947fcee9262410340380cb95786c7325871ed4fdf4cf3e4902'
-            'f09a78a325b8f9f2edafbfea3101a2b4aa22922485c9977583ad5ee044fc821b09c11dda4546cbb9e4c4cf3f0d0d10ca8bf5dc9f1814e1e2c11d8b6caea7c6eb'
-            '2e6bb4b717b5794cbb92711eb3c2b4c0fbb0e055f8ecc5f2129987d027976fc7062a1f1629cafd48d7e1e884f284f41da16f3808b9609aa9ded33109b78ece8b')
+            '5141b66352e6560058ab857e00ba72c84796e135d30cae6398de8e7cf9dfcf266fb581008d2209b0dc20d7dbbcd4e65296557acd3c806fb057dfb55850cd3975'
+            'SKIP')
 
 prepare() {
     cd "$srcdir/$_linuxname"
