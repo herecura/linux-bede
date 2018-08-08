@@ -27,7 +27,7 @@ else
         "$_baseurl/$_linuxname.tar.sign"
     )
 fi
-pkgrel=1
+pkgrel=2
 arch=('x86_64')
 license=('GPL2')
 makedepends=('bc' 'kmod')
@@ -76,7 +76,7 @@ sha512sums=('4d9de340a26155a89ea8773131c76220cc2057f2b5d031b467b60e8b14c1842518e
             'SKIP'
             'b12e3b2a86d1833bc90fba7aa349451aadc491f454412340228b213f0e27c1286b4c1f536c2f358b1622f5a57b49daac6437ddace3eefd6dd91dd897b770a03f'
             '501627d920b5482b99045b17436110b90f7167d0ed33fe3b4c78753cb7f97e7f976d44e2dae1383eae79963055ef74b704446e147df808cdcb9b634fd406e757'
-            'f54d4186ed8e1de75185157007097b68f2e58982898f69e7d24fce253018819e2bbc80542f70434f6f81a7766c9c6df7431d859f44b2f53e7e801ac06a1bd3e5'
+            '7689b3aea73e7f0f1833d20463a898d956e8d9e3a420397c2494d985d4996e6b62d07e91001e44ee193ba5eb79f1af6b6cf95e1cced8625c0e7255a111ed5fe0'
             'cf65a3f068422827dd3a70abbfe11ddbcc2b1f2d0fb66d7163446ce8e1a46546c89c9c0fbb32a889d767c7b774d6eb0a23840b1ac75049335ec4ec7544453ffd'
             '1a57af338f73100c5f93f4bb92a57295fd53fb6c989096a6b96f242d31cf6b837ccb9b339a30b9c1870c8c4adb5d98ed314683a9b92f4d8d1a28e2d66b77898e'
             'ae8c812f0021d38cd881e37a41960dc189537c52042a7d37c47072698b01de593412de1e30eb0d45504924c415bf086624493a22ae18ee5d24a196ec5b31a9f3'
@@ -254,6 +254,21 @@ package_linux-bede-headers() {
         | bsdcpio -pdm "$pkgdir/usr/src/linux-$_kernver"
     install -Dm644 Module.symvers "$pkgdir/usr/src/linux-$_kernver"
 
+    # cleanup other architectures
+    for arch in "$pkgdir/usr/src/linux-$_kernver"/arch/*/; do
+        [[ $arch = */$KARCH/ ]] && continue
+        echo "Removing ./arch/$(basename "$arch")"
+        rm -r "$arch"
+    done
+    for arch in "$pkgdir/usr/src/linux-$_kernver"/tools/perf/arch/*/; do
+        [[ $arch = */$KARCH/ ]] && continue
+        echo "Removing ./tools/perf/arch/$(basename "$arch")"
+        rm -r "$arch"
+    done
+
+    # remove object files
+    find "$pkgdir/usr/src/linux-$_kernver" -type f -name '*.o' -printf 'Removing %P\n' -delete
+
     # add objtool for external module building and enabled VALIDATION_STACK option
     install -Dm755 tools/objtool/objtool \
         "$pkgdir/usr/src/linux-$_kernver/tools/objtool/objtool"
@@ -270,9 +285,14 @@ package_linux-bede-headers() {
             *application/x-executable*) # Binaries
                 /usr/bin/strip $STRIP_BINARIES "$binary"
                 ;;
+            *application/x-pie-executable*) # Relocatable binaries
+                /usr/bin/strip $STRIP_SHARED "$binary"
+                ;;
         esac
     done
 
+    # "fix" owner
     chown -R root:root "$pkgdir/usr/src/linux-$_kernver"
-    find "$pkgdir/usr/src/linux-$_kernver" -type d -exec chmod 755 {} \;
+    # "fix" permissions
+    chmod -Rc u=rwX,go=rX "$pkgdir"
 }
