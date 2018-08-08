@@ -2,6 +2,7 @@
 Type = File
 Operation = Install
 Operation = Upgrade
+Target = usr/lib/modules/*-BEDE/*
 Target = usr/lib/modules/*-BEDE-external/*
 
 [Action]
