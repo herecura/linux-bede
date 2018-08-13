@@ -8,29 +8,21 @@ pkgbase="linux$_kernelname"
 pkgname=("linux$_kernelname" "linux$_kernelname-headers")
 _basekernel=4.17
 _patchver=14
+_tag=v${_basekernel}
 if [[ "$_patchver" == rc* ]]; then
-    # rc kernel
-    _baseurl='https://www.kernel.org/pub/linux/kernel/v4.x/testing'
-    _baseurl='https://git.kernel.org/torvalds/t'
-    pkgver=${_basekernel}$_patchver
-    _linuxname="linux-${_basekernel}-$_patchver"
-    source=(
-        "$_baseurl/$_linuxname.tar.xz"
-    )
+    _tag=${_tag}-${_patchver}
+    pkgver=${_basekernel}${_patchver}
+elif [[ $_patchver -ne 0 ]]; then
+    _tag=${_tag}.${_patchver}
+    pkgver=${_basekernel}.${_patchver}
 else
-    # $_patchver is no RC build normal
-    _baseurl='https://www.kernel.org/pub/linux/kernel/v4.x'
-    pkgver=$_basekernel
-    _linuxname="linux-$_basekernel"
-    source=(
-        "$_baseurl/$_linuxname.tar.xz"
-        "$_baseurl/$_linuxname.tar.sign"
-    )
+    pkgver=${_basekernel}
 fi
-pkgrel=1
+source=("linux-stable::git+https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git?signed#tag=${_tag}")
+pkgrel=2
 arch=('x86_64')
 license=('GPL2')
-makedepends=('bc' 'kmod')
+makedepends=('git' 'bc' 'kmod')
 url="http://www.kernel.org"
 options=(!strip)
 
@@ -52,17 +44,6 @@ source+=(
     'sysctl-linux-bede.conf'
 )
 
-# revision patches
-if [[ "$_patchver" =~ ^[0-9]*$ ]]; then
-    if [[ $_patchver -ne 0 ]]; then
-        pkgver=$_basekernel.$_patchver
-        _patchname="patch-$pkgver"
-        source=( "${source[@]}"
-            "$_baseurl/$_patchname.xz"
-        )
-    fi
-fi
-
 ## extra patches
 _extrapatches=(
 )
@@ -72,26 +53,16 @@ if [[ ${#_extrapatches[@]} -ne 0 ]]; then
     )
 fi
 
-sha512sums=('4d9de340a26155a89ea8773131c76220cc2057f2b5d031b467b60e8b14c1842518e2d60a863d8c695f0f7640f3f18d43826201984a238dade857b6cef79837db'
-            'SKIP'
+sha512sums=('SKIP'
             'b12e3b2a86d1833bc90fba7aa349451aadc491f454412340228b213f0e27c1286b4c1f536c2f358b1622f5a57b49daac6437ddace3eefd6dd91dd897b770a03f'
             '501627d920b5482b99045b17436110b90f7167d0ed33fe3b4c78753cb7f97e7f976d44e2dae1383eae79963055ef74b704446e147df808cdcb9b634fd406e757'
             '7689b3aea73e7f0f1833d20463a898d956e8d9e3a420397c2494d985d4996e6b62d07e91001e44ee193ba5eb79f1af6b6cf95e1cced8625c0e7255a111ed5fe0'
             'cf65a3f068422827dd3a70abbfe11ddbcc2b1f2d0fb66d7163446ce8e1a46546c89c9c0fbb32a889d767c7b774d6eb0a23840b1ac75049335ec4ec7544453ffd'
             '1a57af338f73100c5f93f4bb92a57295fd53fb6c989096a6b96f242d31cf6b837ccb9b339a30b9c1870c8c4adb5d98ed314683a9b92f4d8d1a28e2d66b77898e'
-            'ae8c812f0021d38cd881e37a41960dc189537c52042a7d37c47072698b01de593412de1e30eb0d45504924c415bf086624493a22ae18ee5d24a196ec5b31a9f3'
-            '99b76b9305868a93139d9e977ee244c02ada7e3966856a1c559c049dff4543cd39595b723d9fc9b8f27ffef9ff0e4b28bcfbdb28738d5e19342473336553eb27')
+            'ae8c812f0021d38cd881e37a41960dc189537c52042a7d37c47072698b01de593412de1e30eb0d45504924c415bf086624493a22ae18ee5d24a196ec5b31a9f3')
 
 prepare() {
-    cd "$srcdir/$_linuxname"
-
-    # Add revision patches
-    if [[ "$_patchver" =~ ^[0-9]+$ ]]; then
-        if [[ $_patchver -ne 0 ]]; then
-            msg2 "apply $_patchname"
-            patch -Np1 -i "$srcdir/$_patchname"
-        fi
-    fi
+    cd "$srcdir/linux-stable"
 
     # extra patches
     for patch in ${_extrapatches[@]}; do
@@ -105,7 +76,7 @@ prepare() {
 
     # set configuration
     msg2 "copy configuration"
-    cat "$srcdir/config-desktop.x86_64" >./.config
+    cp "$srcdir/config-desktop.x86_64" ./.config
     if [[ "$_kernelname" != "" ]]; then
         sed -i "s|CONFIG_LOCALVERSION=.*|CONFIG_LOCALVERSION=\"\U$_kernelname\"|g" ./.config
     fi
@@ -123,15 +94,12 @@ prepare() {
 
     # hack to prevent output kernel from being marked as dirty or git
     msg2 "apply hack to prevent kernel tree being marked dirty"
-    echo "" > "$srcdir/$_linuxname/.scmversion"
-
-    # sync-check does not have executable flag
-    chmod +x tools/objtool/sync-check.sh
+    echo "" > "$srcdir/linux-stable/.scmversion"
 
 }
 
 build() {
-    cd "$srcdir/$_linuxname"
+    cd "$srcdir/linux-stable"
 
     msg2 "prepare"
     make prepare
@@ -168,7 +136,7 @@ package_linux-bede() {
     install=$pkgname.install
 
     KARCH=x86
-    cd "$srcdir/$_linuxname"
+    cd "$srcdir/linux-stable"
 
     mkdir -p "$pkgdir"/{lib/modules,lib/firmware,boot,usr}
 
@@ -237,7 +205,7 @@ package_linux-bede-headers() {
     install -dm755 "$pkgdir/usr/lib/modules/$_kernver"
     cd "$pkgdir/usr/lib/modules/$_kernver"
     ln -sf ../../../src/linux-$_kernver build
-    cd "$srcdir/$_linuxname"
+    cd "$srcdir/linux-stable"
     install -D -m644 Makefile \
         "$pkgdir/usr/src/linux-$_kernver/Makefile"
     install -D -m644 kernel/Makefile \
