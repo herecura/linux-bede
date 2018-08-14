@@ -6,8 +6,8 @@
 _kernelname=-bede
 pkgbase="linux$_kernelname"
 pkgname=("linux$_kernelname" "linux$_kernelname-headers")
-_basekernel=4.17
-_patchver=14
+_basekernel=4.18
+_patchver=0
 _tag=v${_basekernel}
 if [[ "$_patchver" == rc* ]]; then
     _tag=${_tag}-${_patchver}
@@ -19,7 +19,7 @@ else
     pkgver=${_basekernel}
 fi
 source=("linux-stable::git+https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git?signed#tag=${_tag}")
-pkgrel=2
+pkgrel=1
 arch=('x86_64')
 license=('GPL2')
 makedepends=('git' 'bc' 'kmod')
@@ -54,7 +54,7 @@ if [[ ${#_extrapatches[@]} -ne 0 ]]; then
 fi
 
 sha512sums=('SKIP'
-            'b12e3b2a86d1833bc90fba7aa349451aadc491f454412340228b213f0e27c1286b4c1f536c2f358b1622f5a57b49daac6437ddace3eefd6dd91dd897b770a03f'
+            '2498c8449ad81fc534b4a48fd34c6163815c3d2d6c4eb9bbd6c18ee1055d7cce81ab2c96764d80bd9e068fc7e7f63e826c5f0aeea982a58b5fe74db3d43506ec'
             '501627d920b5482b99045b17436110b90f7167d0ed33fe3b4c78753cb7f97e7f976d44e2dae1383eae79963055ef74b704446e147df808cdcb9b634fd406e757'
             '7689b3aea73e7f0f1833d20463a898d956e8d9e3a420397c2494d985d4996e6b62d07e91001e44ee193ba5eb79f1af6b6cf95e1cced8625c0e7255a111ed5fe0'
             'cf65a3f068422827dd3a70abbfe11ddbcc2b1f2d0fb66d7163446ce8e1a46546c89c9c0fbb32a889d767c7b774d6eb0a23840b1ac75049335ec4ec7544453ffd'
@@ -177,9 +177,6 @@ package_linux-bede() {
     # add real version for building modules and running depmod from post_install/upgrade
     mkdir -p "$pkgdir/lib/modules/$_basekernel$_fldkernelname-external"
     echo "$_kernver" > "$pkgdir/lib/modules/${_basekernel}$_fldkernelname-external/version"
-
-    # gzip all modules
-    find "$pkgdir" -name '*.ko' -exec gzip -9 {}  \;
 
     # Now we call depmod...
     depmod -b "$pkgdir" -F System.map "$_kernver"
