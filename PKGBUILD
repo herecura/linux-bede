@@ -7,18 +7,17 @@ _kernelname=-bede
 pkgbase="linux$_kernelname"
 pkgname=("linux$_kernelname" "linux$_kernelname-headers")
 _basekernel=4.18
-_patchver=2
-_tag=v${_basekernel}
+_patchver=3
 if [[ "$_patchver" == rc* ]]; then
-    _tag=${_tag}-${_patchver}
+    _tag=v${_basekernel}-${_patchver}
     pkgver=${_basekernel}${_patchver}
 elif [[ $_patchver -ne 0 ]]; then
-    _tag=${_tag}.${_patchver}
+    _tag=v${_basekernel}.${_patchver}
     pkgver=${_basekernel}.${_patchver}
 else
+    _tag=v${_basekernel}
     pkgver=${_basekernel}
 fi
-source=("linux-stable::git+https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git?signed#tag=${_tag}")
 pkgrel=1
 arch=('x86_64')
 license=('GPL2')
@@ -31,7 +30,8 @@ validpgpkeys=(
     '647F28654894E3BD457199BE38DBBDC86092693E'
 )
 
-source+=(
+source=(
+    "linux-stable::git+https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git?signed#tag=${_tag}"
     # the main kernel config files
     "config-desktop.x86_64"
     # standard config files for mkinitcpio ramdisk
@@ -95,7 +95,6 @@ prepare() {
     # hack to prevent output kernel from being marked as dirty or git
     msg2 "apply hack to prevent kernel tree being marked dirty"
     echo "" > "$srcdir/linux-stable/.scmversion"
-
 }
 
 build() {
@@ -136,6 +135,7 @@ package_linux-bede() {
     install=$pkgname.install
 
     KARCH=x86
+
     cd "$srcdir/linux-stable"
 
     mkdir -p "$pkgdir"/{lib/modules,lib/firmware,boot,usr}
