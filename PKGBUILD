@@ -7,7 +7,7 @@ _kernelname=-bede
 pkgbase="linux$_kernelname"
 pkgname=("linux$_kernelname" "linux$_kernelname-headers")
 _basekernel=4.19
-_patchver=rc7
+_patchver=rc8
 if [[ "$_patchver" == rc* ]]; then
     _tag=v${_basekernel}-${_patchver}
     pkgver=${_basekernel}${_patchver}
@@ -18,6 +18,14 @@ else
     _tag=v${_basekernel}
     pkgver=${_basekernel}
 fi
+
+_folder="linux-stable"
+_gitrepo="$_folder::git+https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git?signed#tag=${_tag}"
+if [[ "$_patchver" == rc* ]]; then
+    _folder="linux-mainline"
+    _gitrepo="$_folder::git+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git?signed#tag=${_tag}"
+fi
+
 pkgrel=1
 arch=('x86_64')
 license=('GPL2')
@@ -31,7 +39,7 @@ validpgpkeys=(
 )
 
 source=(
-    "linux-stable::git+https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git?signed#tag=${_tag}"
+    "$_gitrepo"
     # the main kernel config files
     "config-desktop.x86_64"
     # standard config files for mkinitcpio ramdisk
@@ -62,7 +70,7 @@ sha512sums=('SKIP'
             'ae8c812f0021d38cd881e37a41960dc189537c52042a7d37c47072698b01de593412de1e30eb0d45504924c415bf086624493a22ae18ee5d24a196ec5b31a9f3')
 
 prepare() {
-    cd "$srcdir/linux-stable"
+    cd "$srcdir/$_folder"
 
     # extra patches
     for patch in ${_extrapatches[@]}; do
@@ -94,11 +102,11 @@ prepare() {
 
     # hack to prevent output kernel from being marked as dirty or git
     msg2 "apply hack to prevent kernel tree being marked dirty"
-    echo "" > "$srcdir/linux-stable/.scmversion"
+    echo "" > "$srcdir/$_folder/.scmversion"
 }
 
 build() {
-    cd "$srcdir/linux-stable"
+    cd "$srcdir/$_folder"
 
     msg2 "prepare"
     make prepare
@@ -136,7 +144,7 @@ package_linux-bede() {
 
     KARCH=x86
 
-    cd "$srcdir/linux-stable"
+    cd "$srcdir/$_folder"
 
     mkdir -p "$pkgdir"/{lib/modules,lib/firmware,boot,usr}
 
@@ -202,7 +210,7 @@ package_linux-bede-headers() {
     install -dm755 "$pkgdir/usr/lib/modules/$_kernver"
     cd "$pkgdir/usr/lib/modules/$_kernver"
     ln -sf ../../../src/linux-$_kernver build
-    cd "$srcdir/linux-stable"
+    cd "$srcdir/$_folder"
     install -D -m644 Makefile \
         "$pkgdir/usr/src/linux-$_kernver/Makefile"
     install -D -m644 kernel/Makefile \
