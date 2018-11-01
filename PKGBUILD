@@ -6,8 +6,8 @@
 _kernelname=-bede
 pkgbase="linux$_kernelname"
 pkgname=("linux$_kernelname" "linux$_kernelname-headers")
-_basekernel=4.18
-_patchver=16
+_basekernel=4.19
+_patchver=0
 if [[ "$_patchver" == rc* ]]; then
     _tag=v${_basekernel}-${_patchver}
     pkgver=${_basekernel}${_patchver}
@@ -18,7 +18,15 @@ else
     _tag=v${_basekernel}
     pkgver=${_basekernel}
 fi
-pkgrel=1
+
+_folder="linux-stable"
+_gitrepo="$_folder::git+https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git?signed#tag=${_tag}"
+if [[ "$_patchver" == rc* ]]; then
+    _folder="linux-mainline"
+    _gitrepo="$_folder::git+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git?signed#tag=${_tag}"
+fi
+
+pkgrel=3
 arch=('x86_64')
 license=('GPL2')
 makedepends=('git' 'bc' 'kmod')
@@ -31,7 +39,7 @@ validpgpkeys=(
 )
 
 source=(
-    "linux-stable::git+https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git?signed#tag=${_tag}"
+    "$_gitrepo"
     # the main kernel config files
     "config-desktop.x86_64"
     # standard config files for mkinitcpio ramdisk
@@ -54,7 +62,7 @@ if [[ ${#_extrapatches[@]} -ne 0 ]]; then
 fi
 
 sha512sums=('SKIP'
-            'eeb28cec60a2b2130285e3a6ae760546dc31eb6b258a17cfff6c8001cefdcb79130284ae9e07f776a347389d6d595edcecf98bc72de8e1c1fffa4c0a2cf6da1b'
+            '03f5a2c7f55baf23468fa170cba3b35849a976c9a4d435578525fd458ac58a17f0417b24b70eae7afba7684f11c0c272ee08b1f2d60f500ef62c808a548f86e2'
             '501627d920b5482b99045b17436110b90f7167d0ed33fe3b4c78753cb7f97e7f976d44e2dae1383eae79963055ef74b704446e147df808cdcb9b634fd406e757'
             '7689b3aea73e7f0f1833d20463a898d956e8d9e3a420397c2494d985d4996e6b62d07e91001e44ee193ba5eb79f1af6b6cf95e1cced8625c0e7255a111ed5fe0'
             'cf65a3f068422827dd3a70abbfe11ddbcc2b1f2d0fb66d7163446ce8e1a46546c89c9c0fbb32a889d767c7b774d6eb0a23840b1ac75049335ec4ec7544453ffd'
@@ -62,7 +70,7 @@ sha512sums=('SKIP'
             'ae8c812f0021d38cd881e37a41960dc189537c52042a7d37c47072698b01de593412de1e30eb0d45504924c415bf086624493a22ae18ee5d24a196ec5b31a9f3')
 
 prepare() {
-    cd "$srcdir/linux-stable"
+    cd "$srcdir/$_folder"
 
     # extra patches
     for patch in ${_extrapatches[@]}; do
@@ -94,11 +102,11 @@ prepare() {
 
     # hack to prevent output kernel from being marked as dirty or git
     msg2 "apply hack to prevent kernel tree being marked dirty"
-    echo "" > "$srcdir/linux-stable/.scmversion"
+    echo "" > "$srcdir/$_folder/.scmversion"
 }
 
 build() {
-    cd "$srcdir/linux-stable"
+    cd "$srcdir/$_folder"
 
     msg2 "prepare"
     make prepare
@@ -136,7 +144,7 @@ package_linux-bede() {
 
     KARCH=x86
 
-    cd "$srcdir/linux-stable"
+    cd "$srcdir/$_folder"
 
     mkdir -p "$pkgdir"/{lib/modules,lib/firmware,boot,usr}
 
@@ -202,7 +210,7 @@ package_linux-bede-headers() {
     install -dm755 "$pkgdir/usr/lib/modules/$_kernver"
     cd "$pkgdir/usr/lib/modules/$_kernver"
     ln -sf ../../../src/linux-$_kernver build
-    cd "$srcdir/linux-stable"
+    cd "$srcdir/$_folder"
     install -D -m644 Makefile \
         "$pkgdir/usr/src/linux-$_kernver/Makefile"
     install -D -m644 kernel/Makefile \
