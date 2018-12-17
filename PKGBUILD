@@ -26,7 +26,7 @@ if [[ "$_patchver" == rc* ]]; then
     _gitrepo="$_folder::git+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git?signed#tag=${_tag}"
 fi
 
-pkgrel=1
+pkgrel=2
 arch=('x86_64')
 license=('GPL2')
 makedepends=('git' 'bc' 'kmod')
@@ -224,6 +224,8 @@ package_linux-bede-headers() {
         -o -name '*.lds' \) | bsdcpio -pdm "$pkgdir/usr/src/linux-$_kernver"
     cp -a scripts include "$pkgdir/usr/src/linux-$_kernver"
     find $(find arch/$KARCH -name include -type d -print) -type f \
+        | bsdcpio -pdm "$pkgdir/usr/src/linux-$_kernver"
+    find $(find arch/x86 -name kernel -type d -print) -iname '*.s' -type f \
         | bsdcpio -pdm "$pkgdir/usr/src/linux-$_kernver"
     install -Dm644 Module.symvers "$pkgdir/usr/src/linux-$_kernver"
 
