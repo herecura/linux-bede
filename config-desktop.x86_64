@@ -1,6 +1,6 @@
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/x86 5.1.0-1 Kernel Configuration
+# Linux/x86 5.1.4-1 Kernel Configuration
 #
 
 #
@@ -8521,7 +8521,15 @@ CONFIG_BINARY_PRINTF=y
 #
 # Library routines
 #
+
+#
+# RAID 6
+#
 CONFIG_RAID6_PQ=m
+CONFIG_RAID6_FORCE_ALGO=y
+# CONFIG_RAID6_FORCE_INT is not set
+# CONFIG_RAID6_FORCE_SSSE3 is not set
+CONFIG_RAID6_FORCE_AVX2=y
 CONFIG_RAID6_PQ_BENCHMARK=y
 CONFIG_BITREVERSE=y
 CONFIG_RATIONAL=y
