@@ -7,7 +7,7 @@ _kernelname=-bede
 pkgbase="linux$_kernelname"
 pkgname=("linux$_kernelname" "linux$_kernelname-headers")
 _basekernel=5.1
-_patchver=5
+_patchver=6
 _clr=${_basekernel}.4-3
 if [[ "$_patchver" == rc* ]]; then
     _tag=v${_basekernel}-${_patchver}
@@ -27,7 +27,7 @@ if [[ "$_patchver" == rc* ]]; then
     _gitrepo="$_folder::git+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git?signed#tag=${_tag}"
 fi
 
-pkgrel=2
+pkgrel=1
 arch=('x86_64')
 license=('GPL2')
 makedepends=('git' 'bc' 'kmod')
@@ -66,7 +66,7 @@ fi
 
 sha512sums=('SKIP'
             'SKIP'
-            '81b7092710fdc47bd6c648e352a352404e605a25b14819df9bf8bc3a1cfdbfecec589615e2d4f2f531cb9565473b172054fedac36ec3a65bf27adc0c30cce904'
+            '8ff4da6104e50c8ea9814a471adffac56e16ad3882838e335e4417677df4d8514d235e17383fdae19fa66a948832117cc362704f246c081227b8c4b9733c5526'
             '501627d920b5482b99045b17436110b90f7167d0ed33fe3b4c78753cb7f97e7f976d44e2dae1383eae79963055ef74b704446e147df808cdcb9b634fd406e757'
             '7689b3aea73e7f0f1833d20463a898d956e8d9e3a420397c2494d985d4996e6b62d07e91001e44ee193ba5eb79f1af6b6cf95e1cced8625c0e7255a111ed5fe0'
             'cf65a3f068422827dd3a70abbfe11ddbcc2b1f2d0fb66d7163446ce8e1a46546c89c9c0fbb32a889d767c7b774d6eb0a23840b1ac75049335ec4ec7544453ffd'
