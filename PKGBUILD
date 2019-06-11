@@ -7,7 +7,7 @@ _kernelname=-bede
 pkgbase="linux$_kernelname"
 pkgname=("linux$_kernelname" "linux$_kernelname-headers")
 _basekernel=5.1
-_patchver=8
+_patchver=9
 _clr=${_basekernel}.4-3
 if [[ "$_patchver" == rc* ]]; then
     _tag=v${_basekernel}-${_patchver}
