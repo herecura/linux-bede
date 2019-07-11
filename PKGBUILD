@@ -41,8 +41,6 @@ validpgpkeys=(
 
 source=(
     "$_gitrepo"
-    # clearlinux current
-    "clearlinux-current::git+https://github.com/clearlinux-pkgs/linux-current.git#tag=${_clr}"
     # the main kernel config files
     "config-desktop.x86_64"
     # standard config files for mkinitcpio ramdisk
@@ -65,7 +63,6 @@ if [[ ${#_extrapatches[@]} -ne 0 ]]; then
 fi
 
 sha512sums=('SKIP'
-            'SKIP'
             '0a5d4003ac20ddf525b6a73cb31b270c2f1c45d44006642882d3e7106f7aac298c65d6306ca9fefc096e2128bd21dec4aaeffa0e608522f3b3d05a5a625083ab'
             '501627d920b5482b99045b17436110b90f7167d0ed33fe3b4c78753cb7f97e7f976d44e2dae1383eae79963055ef74b704446e147df808cdcb9b634fd406e757'
             '7689b3aea73e7f0f1833d20463a898d956e8d9e3a420397c2494d985d4996e6b62d07e91001e44ee193ba5eb79f1af6b6cf95e1cced8625c0e7255a111ed5fe0'
@@ -84,12 +81,6 @@ prepare() {
             msg2 "apply $patch"
             patch -Np1 -i "$srcdir/$patch"
         fi
-    done
-
-    # clearlinux patches (without wireguard)
-    for i in $(grep '^Patch.*01[0-9]\+' ${srcdir}/clearlinux-current/linux-current.spec | sed -n 's/.*: //p'); do
-        msg2 "Applying patch ${i}..."
-        patch -Np1 -i "$srcdir/clearlinux-current/${i}"
     done
 
     # set configuration
