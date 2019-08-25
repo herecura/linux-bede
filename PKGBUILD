@@ -7,7 +7,7 @@ _kernelname=-bede
 pkgbase="linux$_kernelname"
 pkgname=("linux$_kernelname" "linux$_kernelname-headers")
 _basekernel=5.2
-_patchver=9
+_patchver=10
 if [[ "$_patchver" == rc* ]]; then
     _tag=v${_basekernel}-${_patchver}
     pkgver=${_basekernel}${_patchver}
@@ -34,8 +34,9 @@ url="http://www.kernel.org"
 options=(!strip)
 
 validpgpkeys=(
-    'ABAF11C65A2970B130ABE3C479BE3E4300411886'
-    '647F28654894E3BD457199BE38DBBDC86092693E'
+    'ABAF11C65A2970B130ABE3C479BE3E4300411886'  # "Linus Torvalds"
+    '647F28654894E3BD457199BE38DBBDC86092693E'  # "Greg Kroah-Hartman"
+    'E27E5D8A3403A2EF66873BBCDEA66FF797772CDC'  # "Sasha Levin"
 )
 
 source=(
@@ -86,7 +87,7 @@ prepare() {
     done
 
     # clearlinux patches (without wireguard)
-    for i in $(grep '^Patch.*0[0-1][0-9][0-9]' ${srcdir}/clearlinux/linux.spec | grep -v '^Patch0125' | sed -n 's/.*: //p'); do
+    for i in $(grep '^Patch.*0[0-1][0-9][0-9]' ${srcdir}/clearlinux/linux.spec | grep -v '^Patch0125' | grep -v 'CVE-2019-15117' | sed -n 's/.*: //p'); do
         msg2 "Applying patch ${i}..."
         patch -Np1 -i "$srcdir/clearlinux/${i}"
     done
