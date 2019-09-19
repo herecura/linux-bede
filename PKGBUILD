@@ -6,8 +6,9 @@
 _kernelname=-bede
 pkgbase="linux$_kernelname"
 pkgname=("linux$_kernelname" "linux$_kernelname-headers")
-_basekernel=5.2
-_patchver=16
+_basekernel=5.3
+_patchver=0
+_clearlinux='-current'
 if [[ "$_patchver" == rc* ]]; then
     _tag=v${_basekernel}-${_patchver}
     pkgver=${_basekernel}${_patchver}
@@ -42,7 +43,7 @@ validpgpkeys=(
 source=(
     "$_gitrepo"
     # clearlinux
-    "clearlinux::git+https://github.com/clearlinux-pkgs/linux.git"
+    "clearlinux$_clearlinux::git+https://github.com/clearlinux-pkgs/linux$_clearlinux.git"
     # the main kernel config files
     "config-desktop.x86_64"
     # standard config files for mkinitcpio ramdisk
@@ -66,7 +67,7 @@ fi
 
 sha512sums=('SKIP'
             'SKIP'
-            '61d0f8b4e4c46de7f6e698bff1e4b831b724b676943535db8c64dc4e994cfcb9e8c61895f3e0d5ea9ff2d9399c5e373f6055624cb0bdc668e1302d6fa67d5c7d'
+            'e3f963f9257f9b52d8b91c70c904849ceaf83b2c332054af1877a5cfbd3fea676665ad506cf9a39e88b08623a6ed374eff1139b931ee0aa5daeeddff56f69dd9'
             '501627d920b5482b99045b17436110b90f7167d0ed33fe3b4c78753cb7f97e7f976d44e2dae1383eae79963055ef74b704446e147df808cdcb9b634fd406e757'
             '7689b3aea73e7f0f1833d20463a898d956e8d9e3a420397c2494d985d4996e6b62d07e91001e44ee193ba5eb79f1af6b6cf95e1cced8625c0e7255a111ed5fe0'
             'cf65a3f068422827dd3a70abbfe11ddbcc2b1f2d0fb66d7163446ce8e1a46546c89c9c0fbb32a889d767c7b774d6eb0a23840b1ac75049335ec4ec7544453ffd'
@@ -87,9 +88,9 @@ prepare() {
     done
 
     # clearlinux patches (without wireguard)
-    for i in $(grep '^Patch.*0[0-1][0-9][0-9]' ${srcdir}/clearlinux/linux.spec | grep -v '^Patch0125' | sed -n 's/.*: //p'); do
+    for i in $(grep '^Patch.*0[0-1][0-9][0-9]' ${srcdir}/clearlinux$_clearlinux/linux$_clearlinux.spec | grep -v '^Patch0123' | sed -n 's/.*: //p'); do
         msg2 "Applying patch ${i}..."
-        patch -Np1 -i "$srcdir/clearlinux/${i}"
+        patch -Np1 -i "$srcdir/clearlinux$_clearlinux/${i}"
     done
 
     # set configuration
