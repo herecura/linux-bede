@@ -7,7 +7,7 @@ _kernelname=-bede
 pkgbase="linux$_kernelname"
 pkgname=("linux$_kernelname" "linux$_kernelname-headers")
 _basekernel=5.3
-_patchver=9
+_patchver=10
 _clearlinux=''
 if [[ "$_patchver" == rc* ]]; then
     _tag=v${_basekernel}-${_patchver}
@@ -27,7 +27,7 @@ if [[ "$_patchver" == rc* ]]; then
     _gitrepo="$_folder::git+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git?signed#tag=${_tag}"
 fi
 
-pkgrel=2
+pkgrel=1
 arch=('x86_64')
 license=('GPL2')
 makedepends=('git' 'bc' 'kmod')
@@ -61,7 +61,7 @@ fi
 
 sha512sums=('SKIP'
             'SKIP'
-            '6e50a262ec0f7c96d813e7f7a3d43f3ee8cb859428c1f8b611da032f4d6c7a7096928482646e6c6ea34db09333ddbb16af3ca91861a0c9d8c8aa9087f9603fe9'
+            'a9511cd90457c40b66c055a114f12d88c12a39754ab817614bb73790b6447e3c00acf01285b700a4f5200c62e680cefc59e53483ba33d5a5658af60dab2682e4'
             'ae8c812f0021d38cd881e37a41960dc189537c52042a7d37c47072698b01de593412de1e30eb0d45504924c415bf086624493a22ae18ee5d24a196ec5b31a9f3')
 
 export KBUILD_BUILD_HOST=blackeagle
@@ -139,6 +139,7 @@ package_linux-bede() {
         'crda: to set the correct wireless channels of your country'
         'linux-firmware: when having some hardware needing special firmware'
     )
+    install=$pkgname.install
 
     cd "$srcdir/$_folder"
     local kernver="$(<version)"
