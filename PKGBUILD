@@ -7,7 +7,7 @@ _kernelname=-bede
 pkgbase="linux$_kernelname"
 pkgname=("linux$_kernelname" "linux$_kernelname-headers")
 _basekernel=5.3
-_patchver=10
+_patchver=11
 _clearlinux=''
 if [[ "$_patchver" == rc* ]]; then
     _tag=v${_basekernel}-${_patchver}
@@ -61,7 +61,7 @@ fi
 
 sha512sums=('SKIP'
             'SKIP'
-            'a9511cd90457c40b66c055a114f12d88c12a39754ab817614bb73790b6447e3c00acf01285b700a4f5200c62e680cefc59e53483ba33d5a5658af60dab2682e4'
+            'f51623ee3ebc1638cce1081f1c551703fcc978bf29fa58372f5762e9acb7110c1be160ea3252559e6bb6cb2d448f1cd85abe83c02614047557770db6e65f9bc8'
             'ae8c812f0021d38cd881e37a41960dc189537c52042a7d37c47072698b01de593412de1e30eb0d45504924c415bf086624493a22ae18ee5d24a196ec5b31a9f3')
 
 export KBUILD_BUILD_HOST=blackeagle
@@ -82,7 +82,7 @@ prepare() {
     done
 
     # clearlinux patches (without wireguard)
-    for i in $(grep '^Patch.*0[0-1][0-9][0-9]' ${srcdir}/clearlinux$_clearlinux/linux$_clearlinux.spec | grep -v '^Patch0123\|^Patch0130' | sed -n 's/.*: //p'); do
+    for i in $(grep '^Patch.*0[0-1][0-9][0-9]' ${srcdir}/clearlinux$_clearlinux/linux$_clearlinux.spec | grep -v '^Patch000[2-9]\|^Patch001[0-9]\|^Patch0123\|^Patch0130' | sed -n 's/.*: //p'); do
         msg2 "Applying patch ${i}..."
         patch -Np1 -i "$srcdir/clearlinux$_clearlinux/${i}"
     done
