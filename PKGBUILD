@@ -8,7 +8,6 @@ pkgbase="linux$_kernelname"
 pkgname=("linux$_kernelname" "linux$_kernelname-headers")
 _basekernel=5.3
 _patchver=14
-_clearlinux=''
 if [[ "$_patchver" == rc* ]]; then
     _tag=v${_basekernel}-${_patchver}
     pkgver=${_basekernel}${_patchver}
@@ -42,8 +41,6 @@ validpgpkeys=(
 
 source=(
     "$_gitrepo"
-    # clearlinux
-    "clearlinux$_clearlinux::git+https://github.com/clearlinux-pkgs/linux$_clearlinux.git"
     # the main kernel config files
     "config-desktop.x86_64"
     # sysctl tweaks
@@ -79,12 +76,6 @@ prepare() {
             msg2 "apply $patch"
             patch -Np1 -i "$srcdir/$patch"
         fi
-    done
-
-    # clearlinux patches (without wireguard)
-    for i in $(grep '^Patch.*0[0-1][0-9][0-9]' ${srcdir}/clearlinux$_clearlinux/linux$_clearlinux.spec | grep -v '^Patch0123\|^Patch0130' | sed -n 's/.*: //p'); do
-        msg2 "Applying patch ${i}..."
-        patch -Np1 -i "$srcdir/clearlinux$_clearlinux/${i}"
     done
 
     # set configuration
