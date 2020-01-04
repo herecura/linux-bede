@@ -104,9 +104,8 @@ build() {
     make prepare
     # load configuration
     # Configure the kernel. Replace the line below with one of your choice.
+    #make nconfig # preferred CLI menu for configuration
     #make menuconfig # CLI menu for configuration
-    #make xconfig # X-based configuration
-    #make oldconfig # using old config from previous kernel version
     # ... or manually edit .config
     ####################
     # stop here
