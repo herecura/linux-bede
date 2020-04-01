@@ -7,7 +7,7 @@ _kernelname=-bede
 pkgbase="linux$_kernelname"
 pkgname=("linux$_kernelname" "linux$_kernelname-headers")
 _basekernel=5.6
-_patchver=0
+_patchver=1
 if [[ "$_patchver" == rc* ]]; then
     _tag=v${_basekernel}-${_patchver}
     pkgver=${_basekernel}${_patchver}
@@ -49,7 +49,6 @@ source=(
 
 ## extra patches
 _extrapatches=(
-    'be8c827f50a0bcd56361b31ada11dc0a3c2fd240.patch'
 )
 if [[ ${#_extrapatches[@]} -ne 0 ]]; then
     source=( "${source[@]}"
@@ -59,8 +58,7 @@ fi
 
 sha512sums=('SKIP'
             '0456deed874f02f48690ed24494a52e73ec0516aec8c382f7b524badb84d74b83dea69f7424a5b1ba9e80e3579480f05c3c358c5d02a45911e636091e08592b4'
-            'ae8c812f0021d38cd881e37a41960dc189537c52042a7d37c47072698b01de593412de1e30eb0d45504924c415bf086624493a22ae18ee5d24a196ec5b31a9f3'
-            'abc50e6f2e6674a28d3c07cba82de62d93871be1e8af3ba5f8cfb756e244af0e2d169a15b55e416b99ae5e05d321f1560cd31b3c9511e74bf035059866daa5a9')
+            'ae8c812f0021d38cd881e37a41960dc189537c52042a7d37c47072698b01de593412de1e30eb0d45504924c415bf086624493a22ae18ee5d24a196ec5b31a9f3')
 
 export KBUILD_BUILD_HOST=blackeagle
 export KBUILD_BUILD_USER=$pkgbase
@@ -130,12 +128,12 @@ package_linux-bede() {
         'crda: to set the correct wireless channels of your country'
         'linux-firmware: when having some hardware needing special firmware'
     )
-    conflicts=(
-        'virtualbox-modules-bede-guest'
-    )
     provides=(
         'VIRTUALBOX-GUEST-MODULES'
         'WIREGUARD-MODULE'
+    )
+    replaces=(
+        'virtualbox-modules-bede-guest'
     )
     install=$pkgname.install
 
