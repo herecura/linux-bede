@@ -129,10 +129,12 @@ package_linux-bede() {
         'linux-firmware: when having some hardware needing special firmware'
     )
     provides=(
+        'DEEPIN-ANYTHING-MODULE'
         'VIRTUALBOX-GUEST-MODULES'
         'WIREGUARD-MODULE'
     )
     replaces=(
+        'deepin-anything-module-bede'
         'virtualbox-modules-bede-guest'
     )
     install=$pkgname.install
