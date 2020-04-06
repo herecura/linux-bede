@@ -6,8 +6,8 @@
 _kernelname=-bede
 pkgbase="linux$_kernelname"
 pkgname=("linux$_kernelname" "linux$_kernelname-headers")
-_basekernel=5.5
-_patchver=15
+_basekernel=5.6
+_patchver=2
 if [[ "$_patchver" == rc* ]]; then
     _tag=v${_basekernel}-${_patchver}
     pkgver=${_basekernel}${_patchver}
@@ -57,7 +57,7 @@ if [[ ${#_extrapatches[@]} -ne 0 ]]; then
 fi
 
 sha512sums=('SKIP'
-            '8e1f32980c02f3cd99c3da3de8ad2cdb77e09163bfed7a1916cddcc6f42c1e0b44d0f2fed70bb3b31ff23cd2bc18352391c007a9adffb47fe0ecee8e06a3c17a'
+            '0456deed874f02f48690ed24494a52e73ec0516aec8c382f7b524badb84d74b83dea69f7424a5b1ba9e80e3579480f05c3c358c5d02a45911e636091e08592b4'
             'ae8c812f0021d38cd881e37a41960dc189537c52042a7d37c47072698b01de593412de1e30eb0d45504924c415bf086624493a22ae18ee5d24a196ec5b31a9f3')
 
 export KBUILD_BUILD_HOST=blackeagle
@@ -127,6 +127,15 @@ package_linux-bede() {
     optdepends=(
         'crda: to set the correct wireless channels of your country'
         'linux-firmware: when having some hardware needing special firmware'
+    )
+    provides=(
+        'DEEPIN-ANYTHING-MODULE'
+        'VIRTUALBOX-GUEST-MODULES'
+        'WIREGUARD-MODULE'
+    )
+    replaces=(
+        'deepin-anything-module-bede'
+        'virtualbox-modules-bede-guest'
     )
     install=$pkgname.install
 
