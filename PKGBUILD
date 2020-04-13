@@ -26,7 +26,7 @@ if [[ "$_patchver" == rc* ]]; then
     _gitrepo="$_folder::git+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git?signed#tag=${_tag}"
 fi
 
-pkgrel=3
+pkgrel=5
 arch=('x86_64')
 license=('GPL2')
 makedepends=('git' 'bc' 'kmod')
