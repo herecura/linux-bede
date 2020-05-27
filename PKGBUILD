@@ -6,8 +6,8 @@
 _kernelname=-bede
 pkgbase="linux$_kernelname"
 pkgname=("linux$_kernelname" "linux$_kernelname-headers")
-_basekernel=5.6
-_patchver=10
+_basekernel=5.7
+_patchver=rc7
 if [[ "$_patchver" == rc* ]]; then
     _tag=v${_basekernel}-${_patchver}
     pkgver=${_basekernel}${_patchver}
@@ -57,7 +57,7 @@ if [[ ${#_extrapatches[@]} -ne 0 ]]; then
 fi
 
 sha512sums=('SKIP'
-            'cc2bab489b11381a7be3564b579ba4334875394c1b88ff115ef7fb88403dc39deb613e31b8889a0dcc31d4f53f65cd25a31c70f6bb56b21453482f6609226309'
+            'd4dec574404f945a7899673ea635f7bd9373bf87baa4122d1a0614954a08914fc2e87b5a54e3975d5073ec7a1822cef0900ec0df7412a1627013099f8e2ba6d6'
             'ae8c812f0021d38cd881e37a41960dc189537c52042a7d37c47072698b01de593412de1e30eb0d45504924c415bf086624493a22ae18ee5d24a196ec5b31a9f3')
 
 export KBUILD_BUILD_HOST=blackeagle
