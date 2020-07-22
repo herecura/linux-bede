@@ -137,7 +137,6 @@ package_linux-bede() {
         'deepin-anything-module-bede'
         'virtualbox-modules-bede-guest'
     )
-    install=$pkgname.install
 
     cd "$srcdir/$_folder"
     local kernver="$(<version)"
