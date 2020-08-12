@@ -6,8 +6,8 @@
 _kernelname=-bede
 pkgbase="linux$_kernelname"
 pkgname=("linux$_kernelname" "linux$_kernelname-headers")
-_basekernel=5.7
-_patchver=14
+_basekernel=5.8
+_patchver=1
 if [[ "$_patchver" == rc* ]]; then
     _tag=v${_basekernel}-${_patchver}
     pkgver=${_basekernel}${_patchver}
@@ -26,7 +26,7 @@ if [[ "$_patchver" == rc* ]]; then
     _gitrepo="$_folder::git+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git?signed#tag=${_tag}"
 fi
 
-pkgrel=1
+pkgrel=2
 arch=('x86_64')
 license=('GPL2')
 makedepends=('git' 'bc' 'kmod')
@@ -57,7 +57,7 @@ if [[ ${#_extrapatches[@]} -ne 0 ]]; then
 fi
 
 sha512sums=('SKIP'
-            '352f68de6dd31e16af46a537af3420a4b5560a6d7ede1c1eb4cb351e53e87675feb2d58b860d0af1e314b02a40d8a6b67555826a8efce295c9b881336969419d'
+            'e6593c415a2f10e205e6e62075771c3ed8d0f346e0dd521cfa121773eb0c3e125e16d6f43ce6b50eb83a4831747d50af3e4a78ce148a40b313136e1e81f596de'
             'ae8c812f0021d38cd881e37a41960dc189537c52042a7d37c47072698b01de593412de1e30eb0d45504924c415bf086624493a22ae18ee5d24a196ec5b31a9f3')
 
 export KBUILD_BUILD_HOST=blackeagle
