@@ -26,7 +26,7 @@ if [[ "$_patchver" == rc* ]]; then
     _gitrepo="$_folder::git+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git?signed#tag=${_tag}"
 fi
 
-pkgrel=1
+pkgrel=2
 arch=('x86_64')
 license=('GPL2')
 makedepends=('git' 'bc' 'kmod')
@@ -57,7 +57,7 @@ if [[ ${#_extrapatches[@]} -ne 0 ]]; then
 fi
 
 sha512sums=('SKIP'
-            'e6593c415a2f10e205e6e62075771c3ed8d0f346e0dd521cfa121773eb0c3e125e16d6f43ce6b50eb83a4831747d50af3e4a78ce148a40b313136e1e81f596de'
+            'b43bb54d86c79f32e7eba8eca8bbe086f6fb0c5924debe680ce99c63e609ee03d111e0b88c34c7ea90867c76442eb6b0d1638c888c19d30ec0a9189f59d50030'
             'ae8c812f0021d38cd881e37a41960dc189537c52042a7d37c47072698b01de593412de1e30eb0d45504924c415bf086624493a22ae18ee5d24a196ec5b31a9f3')
 
 export KBUILD_BUILD_HOST=blackeagle

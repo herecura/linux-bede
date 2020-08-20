@@ -1,6 +1,6 @@
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/x86 5.8.0-1 Kernel Configuration
+# Linux/x86 5.8.2-1 Kernel Configuration
 #
 CONFIG_CC_VERSION_TEXT="gcc (GCC) 10.1.0"
 CONFIG_CC_IS_GCC=y
@@ -8790,7 +8790,6 @@ CONFIG_FRAME_WARN=1024
 # CONFIG_HEADERS_INSTALL is not set
 # CONFIG_DEBUG_SECTION_MISMATCH is not set
 CONFIG_SECTION_MISMATCH_WARN_ONLY=y
-CONFIG_FRAME_POINTER=y
 CONFIG_STACK_VALIDATION=y
 # CONFIG_DEBUG_FORCE_WEAK_PER_CPU is not set
 # end of Compile-time checks and compiler options
@@ -9003,8 +9002,8 @@ CONFIG_DEBUG_BOOT_PARAMS=y
 # CONFIG_DEBUG_NMI_SELFTEST is not set
 # CONFIG_X86_DEBUG_FPU is not set
 # CONFIG_PUNIT_ATOM_DEBUG is not set
-# CONFIG_UNWINDER_ORC is not set
-CONFIG_UNWINDER_FRAME_POINTER=y
+CONFIG_UNWINDER_ORC=y
+# CONFIG_UNWINDER_FRAME_POINTER is not set
 # end of x86 Debugging
 
 #
